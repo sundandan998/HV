@@ -1,0 +1,66 @@
+body {
+  background-color: #f2f2f2;
+}
+a {
+  text-decoration: none;
+}
+.fr {
+  float: right;
+}
+.fl {
+  float: left;
+}
+.mint-field {
+  margin-bottom: 8px;
+}
+.mint-cell {
+  margin-bottom: 10px;
+}
+.mint-button--default {
+  background-color: #09bb07;
+  color: #fff;
+  height: 30px;
+}
+// 头部样式
+.mint-header {
+  background-color: #fff;
+  color: #333;
+}
+// 首页
+.index-body {
+  margin-top: 15px;
+  input placeholder {
+    color: #333;
+  }
+}
+// 我的
+.health-score {
+  width: 100%;
+  margin: 0 auto;
+  background-color: #fff;
+  display: block;
+  text-align: center;
+  margin: 20px 0 20px 0;
+  padding: 10px 0 10px 0;
+  a {
+    display: block;
+    color: red;
+    font-size: 0.78rem;
+    margin-top: 10px;
+  }
+}
+// 预约信息
+.reservation-body {
+  margin-top: 15px;
+}
+.reservation-body-per {
+  // display: inline-block;
+  a {
+    width: 50%;
+  }
+}
+.reservation-body-time {
+  a {
+    width: 100%;
+  }
+}
