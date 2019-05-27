@@ -5,9 +5,14 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
+    {
+      path: '/cs',
+      name: 'cs',
+      component: () => import('@/pages/index/cs')
+    },
     // 首页
     {
-      path: '/index',
+      path: '/',
       name: 'Index',
       component: () => import('@/pages/index/Index')
     },
@@ -33,7 +38,13 @@ export default new Router({
     {
       path: '/myappointment',
       name: 'Information',
-      component: () => import('@/pages/mine/MyAppointment')
+      component: () => import('@/pages/mine/myreservation/MyAppointment')
+    },
+    // 预约详情
+    {
+      path: '/detail',
+      name: 'MyAppointmentDetail',
+      component: () => import('@/pages/mine/myreservation/MyAppointmentDetail')
     },
     // 预约信息
     {

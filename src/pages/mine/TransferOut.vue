@@ -4,7 +4,7 @@
       <!-- 头部header -->
       <mt-header title="">
         <router-link to="/" slot="left">
-          <mt-button icon="back">转出</mt-button>
+          <mt-button icon="back" v-on:click="$router.go(-1)">转出</mt-button>
         </router-link>
         <mt-button icon="more" slot="right"></mt-button>
       </mt-header>
@@ -21,14 +21,22 @@
       </div>
     </div>
     <div class="transfer-out-button">
-      <mt-button size="large">确认</mt-button>
+      <mt-button size="large" @click="success">确认</mt-button>
     </div>
   </div>
 </template>
 <script>
+import { Toast } from 'mint-ui'
 export default {
   data() {
     return {}
+  },
+  methods: {
+    success() {
+      Toast({
+        message: '转出成功'
+      })
+    }
   }
 }
 </script>
