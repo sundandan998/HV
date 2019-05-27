@@ -18,10 +18,10 @@
         <a href="">数量有误？不领取</a>
       </div>
 
-      <mt-cell title="个人信息" to="//github.com" is-link>
-        <img  slot="icon"  src="../../assets/images/information.svg">
+      <mt-cell title="个人信息" to=" "is-link>
+        <img slot="icon"  src="../../assets/images/information.svg">
       </mt-cell>
-      <mt-cell title="我的预约" to="//github.com" is-link>
+      <mt-cell title="我的预约" to="" is-link>
         <img  slot="icon"  src="../../assets/images/reservation.svg">
       </mt-cell>
     </div>

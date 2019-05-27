@@ -7,7 +7,7 @@ export default new Router({
   routes: [
     // 首页
     {
-      path: '/',
+      path: '/index',
       name: 'Index',
       component: () => import('@/pages/index/Index')
     },
@@ -16,6 +16,24 @@ export default new Router({
       path: '/mine',
       name: 'Mine',
       component: () => import('@/pages/mine/MIne')
+    },
+    // 转出
+    {
+      path: '/out',
+      name: 'TransferOut',
+      component: () => import('@/pages/mine/TransferOut')
+    },
+    // 个人信息
+    {
+      path: '/information',
+      name: 'Information',
+      component: () => import('@/pages/mine/PersonalInformation')
+    },
+    // 我的预约
+    {
+      path: '/myappointment',
+      name: 'Information',
+      component: () => import('@/pages/mine/MyAppointment')
     },
     // 预约信息
     {

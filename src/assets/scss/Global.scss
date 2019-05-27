@@ -19,7 +19,6 @@ a {
 .mint-button--default {
   background-color: #09bb07;
   color: #fff;
-  height: 30px;
 }
 // 头部样式
 .mint-header {
@@ -62,5 +61,81 @@ a {
 .reservation-body-time {
   a {
     width: 100%;
+  }
+}
+// 转出
+.transfer-out-body {
+  margin-top: 15px;
+}
+.transfer-out-body-cell {
+  a {
+    margin-bottom: -16px !important;
+  }
+  .mint-cell-wrapper {
+    background-image: none;
+  }
+}
+.transfer-out-body-field {
+  margin-top: 25px;
+}
+.transfer-out-button {
+  button {
+    position: fixed;
+    bottom: 0px;
+    width: 99%;
+  }
+}
+// 个人信息
+.information-body {
+  margin-top: 15px;
+  a {
+    margin-bottom: -10px !important;
+  }
+  .mint-cell-wrapper {
+    background-image: none;
+  }
+}
+.information-body-bot {
+  margin-top: 15px;
+}
+// 我的预约
+.my-appointment-body {
+  margin-top: 15px;
+  a {
+    margin-bottom: -6px;
+  }
+  .mint-cell-wrapper {
+    background-image: none;
+  }
+  .cancel {
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+}
+// 遮罩层
+.mint-popup {
+  position: fixed;
+  background: #fff;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  border-radius: 5px;
+  height: 380px;
+  -webkit-transform: translate3d(-50%, -50%, 0);
+  transform: translate3d(-50%, -50%, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transition: 0.2s ease-out;
+  transition: 0.2s ease-out;
+}
+.modal {
+  span {
+    text-align: center;
+    display: block;
+    margin: 20px 0 20px 0;
+  }
+  button {
+    width: 90%;
+    margin: 0 auto;
   }
 }
