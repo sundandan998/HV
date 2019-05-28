@@ -20,7 +20,7 @@ export default new Router({
     {
       path: '/mine',
       name: 'Mine',
-      component: () => import('@/pages/mine/MIne')
+      component: () => import('@/pages/mine/Mine')
     },
     // 转出
     {
@@ -42,7 +42,7 @@ export default new Router({
     },
     // 预约详情
     {
-      path: '/detail',
+      path: '/detail/:id',
       name: 'MyAppointmentDetail',
       component: () => import('@/pages/mine/myreservation/MyAppointmentDetail')
     },

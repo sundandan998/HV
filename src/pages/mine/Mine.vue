@@ -18,17 +18,17 @@
         <a href="">数量有误？不领取</a>
       </div> -->
       <div class="health-score-bot">
-        <mt-cell title="HV(健康积分)" value="可用: 10,000"></mt-cell>
-        <mt-cell title="20,000" value="冻结:0"></mt-cell>
+        <mt-cell title="HV(健康积分)" :value="'可用:'+integral.available"></mt-cell>
+        <mt-cell :title="integral.total" :value="'冻结:'+integral.freeze"></mt-cell>
         <div class="health-score-btn">
           <mt-button size="normal">转入</mt-button>
           <router-link to="out">
-          <mt-button size="normal" class="fr">转出</mt-button>
+            <mt-button size="normal" class="fr">转出</mt-button>
           </router-link>
         </div>
       </div>
       <div class="health-information">
-        <mt-cell title="个人信息" to="information"is-link>
+        <mt-cell title="个人信息" to="information"is-link >
           <img slot="icon"  src="../../assets/images/information.svg">
         </mt-cell>
         <mt-cell title="我的预约" to="myAppointment" is-link>
@@ -40,23 +40,31 @@
     <div>
       <app-tabber :message="selected"></app-tabber>
     </div>
-  </div>
-</div>
+  </div></div>
 </template>
 <script>
 import Tabber from '../../assets/tabber/Tabber.vue'
+// 接口请求
+import api from '@/api/user/User.js'
 export default {
   data() {
     return {
       selected: 'mine',
       message: 'mine',
-      show:true
+      show:true,
+      integral:'',
+
     }
+
   },
   components: {
     'app-tabber': Tabber
   },
+  created(){
+    this.userIntegral()
+  },
   methods:{
+    // 隐藏与显示
   //   block(){
   //    if(this.show==true){
   //     this.show=false
@@ -64,6 +72,17 @@ export default {
   //     this.show=true
   //   }
   // }
+  // 用户积分
+  userIntegral(){
+    api.userIntegral().then(res=>{
+      this.integral = res.data
+      this.$store.commit('detail', res.data)
+      // console.log(res)
+    }).catch(err=>{
+      console.log(err)
+    })
+  },
+
 }
 }
 </script>

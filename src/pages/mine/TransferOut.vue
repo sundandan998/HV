@@ -11,8 +11,14 @@
     </div>
     <div class="transfer-out-body">
       <div class="transfer-out-body-cell">
-        <mt-cell title="HV(健康积分)" value="可用:10,000"></mt-cell>
-        <mt-cell title="20,000" value="冻结:10,000"></mt-cell>
+        <mt-cell
+          title="HV(健康积分)"
+          :value="'可用:' + this.detail.available"
+        ></mt-cell>
+        <mt-cell
+          :title="this.detail.total"
+          :value="'冻结:' + this.detail.freeze"
+        ></mt-cell>
       </div>
       <div class="transfer-out-body-field">
         <mt-field label="接收人"></mt-field>
@@ -27,16 +33,23 @@
 </template>
 <script>
 import { Toast } from 'mint-ui'
+import { mapGetters } from 'vuex'
 // 接口请求
 import api from '@/api/user/User'
 export default {
   data() {
-    return {}
+    return {
+      turnIntegral: {
+        recipient: '张三',
+        mobile: '18713351004',
+        amount: '1000.00'
+      }
+    }
   },
   methods: {
     success() {
       api
-        .turnOut()
+        .turnOut(this.turnIntegral)
         .then(res => {
           console.log(res)
         })
@@ -47,6 +60,9 @@ export default {
         message: '转出成功'
       })
     }
+  },
+  computed: {
+    ...mapGetters(['detail'])
   }
 }
 </script>

@@ -13,20 +13,22 @@
     </div>
     <div class="information-body">
       <div class="information-body-top">
-        <mt-cell title="姓名" value="张三"></mt-cell>
-        <mt-cell title="性别" value="男"></mt-cell>
-        <mt-cell title="身份证号码" value="130******8"></mt-cell>
+        <mt-cell title="姓名" :value="infor.name"></mt-cell>
+        <mt-cell title="性别" :value="infor.gender">
+          {{ infor.gender == 0 ? '男' : '女' }}</mt-cell
+        >
+        <mt-cell title="身份证号码" :value="infor.id_card"></mt-cell>
       </div>
       <div class="information-body-bot">
         <mt-cell
           title="手机号"
-          value="136****7661"
+          :value="infor.mobile"
           is-link
           @click.native="modalShow"
         ></mt-cell>
         <mt-cell
           title="微信号"
-          value="zhangsan"
+          :value="infor.wx_username"
           is-link
           @click.native="remove"
         ></mt-cell>
@@ -67,6 +69,10 @@
 </template>
 <script>
 import { Toast } from 'mint-ui'
+import { mapGetters } from 'vuex'
+
+// 接口请求
+import api from '@/api/user/User.js'
 export default {
   data() {
     return {
@@ -77,8 +83,16 @@ export default {
       verifyNum: '',
       btnContent: '发送',
       time: 0,
-      disabled: false
+      disabled: false,
+      infor: '',
+      phone: {
+        mobile: '18713351004',
+        code: '000000'
+      }
     }
+  },
+  created() {
+    this.information()
   },
   methods: {
     // 手机号校验
@@ -96,6 +110,15 @@ export default {
     },
     success() {
       this.popupVisible = false
+      // 更换手机号
+      api
+        .replacePhone(this.phone)
+        .then(res => {
+          console.log(res)
+        })
+        .catch(err => {
+          console.log(err)
+        })
       Toast({
         message: '更换成功'
       })
@@ -168,7 +191,23 @@ export default {
         .then(response => {
           console.log(response.body)
         })
+    },
+    // 个人信息
+    information() {
+      api
+        .information()
+        .then(res => {
+          this.infor = res.data
+          this.$store.commit('detail', res.data)
+          // console.log(res)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
+  },
+  computed: {
+    ...mapGetters(['detail'])
   }
 }
 </script>

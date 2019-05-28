@@ -14,16 +14,32 @@
         <span class="price">价格</span>
         <!-- <mt-button size="small">预约</mt-button> -->
       </mt-cell>
-      <mt-cell title="免疫细胞存储">
-        <span class="integral">30000</span>
-        <mt-button size="small" @click="modalShow">预约</mt-button>
-      </mt-cell>
-      <mt-cell title="脂肪干细胞存储">
+      <div v-for="(item, index) in dataList">
+        <mt-cell :title="item.title">
+          <span class="integral">{{ item.integral }}</span>
+          <!-- @click="modalShow" -->
+          <router-link
+            :to="{
+              name: 'Reservation',
+              params: {
+                id: item.id,
+                title: item.title,
+                integral: item.integral,
+                mobile: item.mobile,
+                name: item.name
+              }
+            }"
+          >
+            <mt-button size="small" @click="handleLogin">预约</mt-button>
+          </router-link>
+        </mt-cell>
+      </div>
+      <!--    <mt-cell title="脂肪干细胞存储">
         <span class="integral">30000</span>
         <router-link to="reservation">
           <mt-button size="small" @click="handleLogin">预约</mt-button>
         </router-link>
-      </mt-cell>
+      </mt-cell> -->
     </div>
     <!-- 底部tabber -->
     <div>
@@ -58,6 +74,7 @@
           v-model="form.idcode"
           :state="form.idStatus"
           :attr="{ maxlength: 18 }"
+          @blur.native.capture="idCard"
         ></mt-field>
         <!-- id="disbtn" -->
         <mt-button size="large" :disabled="submitBtnDisabled">认证</mt-button>
@@ -79,6 +96,7 @@ export default {
       popupVisible: false,
       show: false,
       submitBtnDisabled: true,
+      dataList: '',
       form: {
         phone: '',
         username: '',
@@ -86,12 +104,17 @@ export default {
         idStatus: '',
         NameStatus: ''
       },
+      // 首页列表
+      list: {
+        page: 1,
+        page_size: 6
+      },
       // 参数
       verification: {
         mobile: '18713351004',
         name: '张三',
-        id_card: '130427199121230xxxx',
-        asses_token: ''
+        id_card: '130427199212301414',
+        access_token: '265562595265'
       }
     }
   },
@@ -100,6 +123,7 @@ export default {
   },
   created() {
     this.modalHide()
+    this.serverList()
     // console.log(this.phone.value)
   },
   methods: {
@@ -112,8 +136,20 @@ export default {
           this.$Indicator.close()
         })
         .catch(err => {
-          // console.log(err)
-          this.$Indicator.close()
+          console.log(err)
+        })
+    },
+    // 首页列表
+    serverList() {
+      api
+        .serviceList()
+        .then(res => {
+          this.dataList = res.data
+          // console.log(this.dataList)
+          // this.$store.commit('detail', res.data)
+        })
+        .catch(err => {
+          console.log(err)
         })
     },
     // 手机号校验
@@ -121,18 +157,18 @@ export default {
       var reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/
       //var url="/nptOfficialWebsite/apply/sendSms?mobile="+this.ruleForm.phone;
       if (!reg.test(this.phone)) {
-        this.NameStatus = 'error'
+        this.form.NameStatus = 'error'
       } else {
-        this.NameStatus = 'success'
+        this.form.NameStatus = 'success'
       }
     },
     // 身份证号验证
     idCard() {
       var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
       if (!reg.test(this.number)) {
-        this.idStatus = 'error'
+        this.form.idStatus = 'error'
       } else {
-        this.idStatus = 'success'
+        this.form.idStatus = 'success'
       }
     },
     // 模态框显示

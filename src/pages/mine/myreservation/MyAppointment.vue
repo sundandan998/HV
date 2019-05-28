@@ -12,34 +12,52 @@
       </mt-header>
     </div>
     <div class="my-appointment-body">
-      <div>
-        <mt-cell title="2019-09-09" readonly="readonly" to="detail">
-          <mt-button size="small">取消</mt-button>
-        </mt-cell>
-        <mt-cell title="免疫细胞存储" readonly="readonly" to="detail">
-          <span class="integral">30000</span><span>已预约</span>
-        </mt-cell>
-      </div>
-      <div class="cancel">
-        <mt-cell title="2019-09-09" readonly="readonly" to="detail">
-          <mt-button size="small">申请撤销</mt-button>
-        </mt-cell>
-        <mt-cell title="免疫细胞存储" readonly="readonly" to="detail">
-          <span class="integral">30000</span><span>已受理</span>
-        </mt-cell>
-      </div>
-      <div>
-        <mt-cell title="2019-09-09" readonly="readonly" to="detail">
-          <mt-button size="small">再次预约</mt-button>
-        </mt-cell>
-        <mt-cell title="免疫细胞存储" readonly="readonly" to="detail">
-          <span class="integral">30000</span><span>已完成</span>
-        </mt-cell>
+      <div v-for="(item, index) in orderData" class="order-list">
+        <router-link :to="/detail/ + item.id">
+          <mt-cell :title="item.appointment_date" readonly="readonly">
+            <mt-button size="small">取消</mt-button>
+          </mt-cell>
+          <mt-cell :title="item.service_title" readonly="readonly">
+            <span class="integral">{{ item.price }}</span
+            ><span>已预约</span>
+          </mt-cell>
+        </router-link>
       </div>
     </div>
   </div>
 </template>
-<script></script>
+<script>
+// 接口请求
+import api from '@/api/order/order.js'
+export default {
+  data() {
+    return {
+      orderData: '',
+      list: {
+        page: 1,
+        page_size: 6,
+        ordering: ''
+      }
+    }
+  },
+  created() {
+    this.orderList()
+  },
+  methods: {
+    orderList() {
+      api
+        .orderList(this.list)
+        .then(res => {
+          this.orderData = res.data
+          console.log(this.orderData)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
+  }
+}
+</script>
 <style lang="scss">
 @import '../../../assets/scss/Global.scss';
 </style>
