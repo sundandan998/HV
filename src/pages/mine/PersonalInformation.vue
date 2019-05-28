@@ -51,7 +51,15 @@
           @blur.native.capture="sendcode"
           :attr="{ maxlength: 11 }"
         ></mt-field>
-        <mt-field placeholder="验证码">发送</mt-field>
+        <mt-field label="验证码" v-model="verifyNum">
+          <input
+            v-on:click="sendSmsCode"
+            class="verify-btn"
+            type="button"
+            v-model="btnContent"
+            v-bind="{ disabled: disabled }"
+          />
+        </mt-field>
         <mt-button size="large" @click="success">确定</mt-button>
       </mt-popup>
     </div>
@@ -65,7 +73,11 @@ export default {
       clickfalse: false,
       popupVisible: false,
       NameStatus: '',
-      phone: ''
+      phone: '',
+      verifyNum: '',
+      btnContent: '发送',
+      time: 0,
+      disabled: false
     }
   },
   methods: {
@@ -100,6 +112,62 @@ export default {
         confirmButtonText: '是',
         showCancelButton: true
       })
+    },
+    // 验证码
+    // 获取验证码
+    sendSmsCode() {
+      var reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/ //手机号正则验证
+      var phone = this.phone
+      if (!phone) {
+        //未输入手机号
+        Toast('请输入手机号码')
+        return
+      }
+      if (!reg.test(phone)) {
+        //手机号不合法
+        Toast('您输入的手机号码不合法，请重新输入')
+      }
+      this.time = 60
+      this.timer()
+      // 获取验证码请求
+      var url = 'http://bosstan.asuscomm.com/api/common/sendSmsCode'
+      this.$http
+        .post(url, { username: phone }, { emulateJSON: true })
+        .then(response => {
+          console.log(response.body)
+        })
+    },
+    timer() {
+      if (this.time > 0) {
+        this.time--
+        this.btnContent = this.time + 's后重新获取'
+        this.disabled = true
+        var timer = setTimeout(this.timer, 1000)
+      } else if (this.time == 0) {
+        this.btnContent = '获取验证码'
+        clearTimeout(timer)
+        this.disabled = false
+      }
+    },
+    // 验证验证码
+    verificationCode() {
+      var phone = this.phone //手机号
+      var verifyNum = this.verifyNum //验证码
+      var url = 'http://bosstan.asuscomm.com/api/common/verificationCode'
+      this.$http
+        .post(
+          url,
+          {
+            username: phone,
+            code: verifyNum
+          },
+          {
+            emulateJSON: true
+          }
+        )
+        .then(response => {
+          console.log(response.body)
+        })
     }
   }
 }

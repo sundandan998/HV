@@ -15,9 +15,9 @@
         <mt-cell title="20,000" value="冻结:10,000"></mt-cell>
       </div>
       <div class="transfer-out-body-field">
-        <mt-field label="接收人" placeholder="请输入用户名"></mt-field>
-        <mt-field label="手机号" placeholder="请输入用户名"></mt-field>
-        <mt-field label="积分数量" placeholder="请输入用户名"></mt-field>
+        <mt-field label="接收人"></mt-field>
+        <mt-field label="手机号"></mt-field>
+        <mt-field label="积分数量"></mt-field>
       </div>
     </div>
     <div class="transfer-out-button">

@@ -45,23 +45,22 @@
         />
         <mt-field
           label="手机号"
-          placeholder="请输入手机号"
           type="tel"
-          v-model="phone"
-          :state="NameStatus"
+          v-model="form.phone"
+          :state="form.NameStatus"
           @blur.native.capture="sendCode"
           :attr="{ maxlength: 11 }"
         ></mt-field>
-        <mt-field label="用户名" placeholder="" v-model="username"></mt-field>
+        <mt-field label="用户名" type="tel" v-model="form.username"></mt-field>
         <mt-field
-          @blur.native.capture="changeBtn"
-          label="身份证号"
-          placeholder=""
-          type=""
-          v-model="number"
+          label="身份证号码"
+          type="tel"
+          v-model="form.idcode"
+          :state="form.idStatus"
           :attr="{ maxlength: 18 }"
         ></mt-field>
-        <mt-button size="large" id="disbtn">认证</mt-button>
+        <!-- id="disbtn" -->
+        <mt-button size="large" :disabled="submitBtnDisabled">认证</mt-button>
       </mt-popup>
     </div>
   </div>
@@ -74,14 +73,17 @@ export default {
       selected: 'index',
       message: 'index',
       readonly: true,
-      phone: '',
-      username: '',
-      number: '',
-      NameStatus: '',
       clickfalse: false,
       popupVisible: false,
       show: false,
-      attr: ''
+      submitBtnDisabled: true,
+      form: {
+        phone: '',
+        username: '',
+        idcode: '',
+        idStatus: '',
+        NameStatus: ''
+      }
     }
   },
   components: {
@@ -102,10 +104,13 @@ export default {
         this.NameStatus = 'success'
       }
     },
-    // 按钮变色
-    changeBtn() {
-      if (this.phone != '' || this.username != '' || this.number != '') {
-        document.getElementById('disbtn').style.background = '#09bb07'
+    // 身份证号验证
+    idCard() {
+      var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
+      if (!reg.test(this.number)) {
+        this.idStatus = 'error'
+      } else {
+        this.idStatus = 'success'
       }
     },
     // 模态框显示
@@ -115,16 +120,18 @@ export default {
     // 模态框隐藏
     modalHide() {
       this.popupVisible = false
-      // debugger
-      if (this.phone != '' || this.username != '' || this.number != '') {
-        console.log('15')
-      }
     }
   },
   watch: {
-    attr() {
-      if (this.attr.length == '18') {
-        console.log('15')
+    form: {
+      immediate: true,
+      deep: true,
+      handler(val) {
+        if (val.phone != '' && val.username != '' && val.idcode != '') {
+          this.submitBtnDisabled = false
+        } else {
+          this.submitBtnDisabled = true
+        }
       }
     }
   }
