@@ -27,12 +27,22 @@
 </template>
 <script>
 import { Toast } from 'mint-ui'
+// 接口请求
+import api from '@/api/user/User'
 export default {
   data() {
     return {}
   },
   methods: {
     success() {
+      api
+        .turnOut()
+        .then(res => {
+          console.log(res)
+        })
+        .catch(err => {
+          console.log(err)
+        })
       Toast({
         message: '转出成功'
       })

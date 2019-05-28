@@ -21,7 +21,7 @@
       <mt-cell title="脂肪干细胞存储">
         <span class="integral">30000</span>
         <router-link to="reservation">
-          <mt-button size="small">预约</mt-button>
+          <mt-button size="small" @click="handleLogin">预约</mt-button>
         </router-link>
       </mt-cell>
     </div>
@@ -67,6 +67,8 @@
 </template>
 <script>
 import Tabber from '../../assets/tabber/Tabber.vue'
+// 接口请求
+import api from '@/api/user/User.js'
 export default {
   data() {
     return {
@@ -83,6 +85,13 @@ export default {
         idcode: '',
         idStatus: '',
         NameStatus: ''
+      },
+      // 参数
+      verification: {
+        mobile: '18713351004',
+        name: '张三',
+        id_card: '130427199121230xxxx',
+        asses_token: ''
       }
     }
   },
@@ -94,6 +103,19 @@ export default {
     // console.log(this.phone.value)
   },
   methods: {
+    // 预约
+    handleLogin() {
+      this.$store
+        .dispatch('loginByCode', this.verification)
+        .then(res => {
+          this.$router.push('/')
+          this.$Indicator.close()
+        })
+        .catch(err => {
+          // console.log(err)
+          this.$Indicator.close()
+        })
+    },
     // 手机号校验
     sendCode() {
       var reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/
