@@ -13,15 +13,16 @@
     </div>
     <!-- 主体部分 -->
     <div class="reservation-body">
-      <mt-cell title="预约人" :value="this.$route.params.name"></mt-cell>
-      <mt-cell title="联系电话" :value="this.$route.params.mobile"></mt-cell>
+      <mt-cell title="预约人" :value="this.detail.name"></mt-cell>
+      <mt-cell title="联系电话" :value="this.detail.mobile"></mt-cell>
       <mt-cell title="服务名称" :value="this.$route.params.title"></mt-cell>
       <mt-cell title="价格" :value="this.$route.params.integral"></mt-cell>
       <div class="reservation-body-time">
         <mt-field
           label="预约时间"
-          placeholder="请输入生日"
+          placeholder=""
           type="date"
+          v-model="add.appointment_date"
         ></mt-field>
       </div>
     </div>
@@ -42,7 +43,7 @@ export default {
         name: '张三',
         mobile: '18713351004',
         service_id: 1,
-        appointment_date: '2019-05-12'
+        appointment_date: ''
       }
     }
   },

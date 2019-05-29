@@ -11,19 +11,13 @@
     </div>
     <div class="transfer-out-body">
       <div class="transfer-out-body-cell">
-        <mt-cell
-          title="HV(健康积分)"
-          :value="'可用:' + this.detail.available"
-        ></mt-cell>
-        <mt-cell
-          :title="this.detail.total"
-          :value="'冻结:' + this.detail.freeze"
-        ></mt-cell>
+        <mt-cell title="HV(健康积分)" :value="'可用:' + this.detail.available"></mt-cell>
+        <mt-cell :title="this.detail.total" :value="'冻结:' + this.detail.freeze"></mt-cell>
       </div>
       <div class="transfer-out-body-field">
-        <mt-field label="接收人"></mt-field>
-        <mt-field label="手机号"></mt-field>
-        <mt-field label="积分数量"></mt-field>
+        <mt-field label="接收人" v-model="turnIntegral.recipient"></mt-field>
+        <mt-field label="手机号" v-model="turnIntegral.mobile"></mt-field>
+        <mt-field label="积分数量" v-model="turnIntegral.amount"></mt-field>
       </div>
     </div>
     <div class="transfer-out-button">
@@ -32,40 +26,44 @@
   </div>
 </template>
 <script>
-import { Toast } from 'mint-ui'
-import { mapGetters } from 'vuex'
-// 接口请求
-import api from '@/api/user/User'
-export default {
-  data() {
-    return {
-      turnIntegral: {
-        recipient: '张三',
-        mobile: '18713351004',
-        amount: '1000.00'
+  import { Toast } from 'mint-ui'
+  import { mapGetters } from 'vuex'
+  // 接口请求
+  import api from '@/api/user/User'
+  export default {
+    data() {
+      return {
+        turnIntegral: {
+          recipient: '',
+          mobile: '',
+          amount: ''
+        }
       }
+    },
+    methods: {
+
+      success() {
+        //debugger
+        // console.log(msg)
+        api
+          .turnOut(this.turnIntegral)
+          .then(res => {
+            Toast({
+              message: res.msg
+            })
+          })
+          .catch(err => {
+            Toast({
+              message: err.msg
+            })
+          })
+      }
+    },
+    computed: {
+      ...mapGetters(['detail'])
     }
-  },
-  methods: {
-    success() {
-      api
-        .turnOut(this.turnIntegral)
-        .then(res => {
-          console.log(res)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-      Toast({
-        message: '转出成功'
-      })
-    }
-  },
-  computed: {
-    ...mapGetters(['detail'])
   }
-}
 </script>
 <style lang="scss">
-@import '../../assets/scss/Global.scss';
+  @import '../../assets/scss/Global.scss';
 </style>

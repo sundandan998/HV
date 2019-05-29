@@ -12,13 +12,13 @@
     <div class="index-body">
       <mt-cell title="服务名称">
         <span class="price">价格</span>
-        <!-- <mt-button size="small">预约</mt-button> -->
+     
       </mt-cell>
       <div v-for="(item, index) in dataList">
         <mt-cell :title="item.title">
           <span class="integral">{{ item.integral }}</span>
           <!-- @click="modalShow" -->
-          <router-link
+          <!-- <router-link
             :to="{
               name: 'Reservation',
               params: {
@@ -29,15 +29,16 @@
                 name: item.name
               }
             }"
-          >
-            <mt-button size="small" @click="handleLogin">预约</mt-button>
-          </router-link>
+          > -->
+          <mt-button size="small"@click="modalShow">预约</mt-button>
+            <!-- <mt-button size="small"  >预约</mt-button> -->
+          <!-- </router-link> -->
         </mt-cell>
       </div>
-      <!--    <mt-cell title="脂肪干细胞存储">
+         <!-- <mt-cell title="脂肪干细胞存储">
         <span class="integral">30000</span>
         <router-link to="reservation">
-          <mt-button size="small" @click="handleLogin">预约</mt-button>
+          <mt-button size="small" @click="modalShow">预约</mt-button>
         </router-link>
       </mt-cell> -->
     </div>
@@ -62,22 +63,22 @@
         <mt-field
           label="手机号"
           type="tel"
-          v-model="form.phone"
-          :state="form.NameStatus"
+          v-model="verification.mobile"
+          :state="NameStatus"
           @blur.native.capture="sendCode"
           :attr="{ maxlength: 11 }"
         ></mt-field>
-        <mt-field label="用户名" type="tel" v-model="form.username"></mt-field>
+        <mt-field label="用户名" type="tel" v-model="verification.name"></mt-field>
         <mt-field
           label="身份证号码"
           type="tel"
-          v-model="form.idcode"
-          :state="form.idStatus"
+          v-model="verification.id_card"
+          :state="idStatus"
           :attr="{ maxlength: 18 }"
           @blur.native.capture="idCard"
         ></mt-field>
         <!-- id="disbtn" -->
-        <mt-button size="large" :disabled="submitBtnDisabled">认证</mt-button>
+        <mt-button size="large" :disabled="submitBtnDisabled" @click="handleLogin">认证</mt-button>
       </mt-popup>
     </div>
   </div>
@@ -97,25 +98,22 @@ export default {
       show: false,
       submitBtnDisabled: true,
       dataList: '',
-      form: {
-        phone: '',
-        username: '',
-        idcode: '',
-        idStatus: '',
-        NameStatus: ''
-      },
+      idStatus: '',
+      NameStatus: '',
       // 首页列表
       list: {
         page: 1,
         page_size: 6
       },
-      // 参数
+      //login 参数
       verification: {
-        mobile: '18713351004',
-        name: '张三',
-        id_card: '130427199212301414',
-        access_token: '265562595265'
-      }
+        mobile: '',
+        name: '',
+        id_card: '',
+        access_token: '',    
+      },
+      // openId参数
+      code:'561516'
     }
   },
   components: {
@@ -124,11 +122,12 @@ export default {
   created() {
     this.modalHide()
     this.serverList()
+    this.openId()
     // console.log(this.phone.value)
   },
   methods: {
     // 预约
-    handleLogin() {
+    handleLogin() {  
       this.$store
         .dispatch('loginByCode', this.verification)
         .then(res => {
@@ -138,6 +137,16 @@ export default {
         .catch(err => {
           console.log(err)
         })
+    },
+    openId(){
+      // debugger
+      api.openId({code:'561516'}).then(res=>{
+        // debugger
+        this.$store.commit('detail', res.info)
+        // console.log(res)
+      }).catch(err=>{
+        console.log(err)
+      })
     },
     // 首页列表
     serverList() {
@@ -156,19 +165,19 @@ export default {
     sendCode() {
       var reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/
       //var url="/nptOfficialWebsite/apply/sendSms?mobile="+this.ruleForm.phone;
-      if (!reg.test(this.phone)) {
-        this.form.NameStatus = 'error'
+      if (!reg.test(this.verification.mobile)) {
+        this.NameStatus = 'error'
       } else {
-        this.form.NameStatus = 'success'
+        this.NameStatus = 'success'
       }
     },
     // 身份证号验证
     idCard() {
       var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
-      if (!reg.test(this.number)) {
-        this.form.idStatus = 'error'
+      if (!reg.test(this.verification.id_card)) {
+        this.idStatus = 'error'
       } else {
-        this.form.idStatus = 'success'
+        this.idStatus = 'success'
       }
     },
     // 模态框显示
@@ -181,11 +190,11 @@ export default {
     }
   },
   watch: {
-    form: {
+    verification: {
       immediate: true,
       deep: true,
       handler(val) {
-        if (val.phone != '' && val.username != '' && val.idcode != '') {
+        if (val.mobile!= '' && val.name!= '' && val.id_card!= '') {
           this.submitBtnDisabled = false
         } else {
           this.submitBtnDisabled = true
@@ -196,5 +205,5 @@ export default {
 }
 </script>
 <style lang="scss">
-@import '../../assets/scss/Global.scss';
+@import '../../assets/scss/Global.scss'
 </style>

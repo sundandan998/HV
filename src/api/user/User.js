@@ -8,10 +8,26 @@ export default {
       params: params
     })
   },
+    // 手机验证码
+    sendCode(params = {}) {
+      return request({
+        url: '/system/sms_code/',
+        method: 'post',
+        data: params
+      })
+    },
   // 登录接口
   loginByCode(params = {}) {
     return request({
       url: '/user/authorization/',
+      method: 'post',
+      data: params
+    })
+  },
+  // 获取用户openid
+  openId(params = {}){
+    return request({
+      url: '/user/wx/user/',
       method: 'post',
       data: params
     })

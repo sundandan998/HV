@@ -48,21 +48,21 @@
           label="手机号"
           placeholder="请输入手机号"
           type="tel"
-          v-model="phone"
+          v-model="code.mobile"
           :state="NameStatus"
-          @blur.native.capture="sendcode"
           :attr="{ maxlength: 11 }"
         ></mt-field>
         <mt-field label="验证码" v-model="verifyNum">
           <input
-            v-on:click="sendSmsCode"
+          @click="sendcode"  
+          v-on:click="sendSmsCode"         
             class="verify-btn"
             type="button"
             v-model="btnContent"
             v-bind="{ disabled: disabled }"
           />
         </mt-field>
-        <mt-button size="large" @click="success">确定</mt-button>
+        <mt-button size="large" @click="success" :disabled="submitBtnDisabled">确定</mt-button>
       </mt-popup>
     </div>
   </div>
@@ -84,9 +84,13 @@ export default {
       time: 0,
       disabled: false,
       infor: '',
+      submitBtnDisabled: true,
+      code:{
+        mobile: '',
+      },
       phone: {
-        mobile: '18713351004',
-        code: '000000'
+        mobile: '',
+        code: ''
       }
     }
   },
@@ -96,6 +100,11 @@ export default {
   methods: {
     // 手机号校验
     sendcode() {
+      api.sendCode(this.code).then(res=>{
+        console.log(res)
+      }).catch(err=>{
+        console.log(err)
+      })
       var reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/
       //var url="/nptOfficialWebsite/apply/sendSms?mobile="+this.ruleForm.phone;
       if (!reg.test(this.phone)) {
@@ -103,6 +112,7 @@ export default {
       } else {
         this.NameStatus = 'success'
       }
+     
     },
     modalShow() {
       this.popupVisible = true
@@ -139,7 +149,7 @@ export default {
     // 获取验证码
     sendSmsCode() {
       var reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/ //手机号正则验证
-      var phone = this.phone
+      var phone = this.code.mobile
       if (!phone) {
         //未输入手机号
         Toast('请输入手机号码')
@@ -153,11 +163,11 @@ export default {
       this.timer()
       // 获取验证码请求
       var url = 'http://bosstan.asuscomm.com/api/common/sendSmsCode'
-      this.$http
-        .post(url, { username: phone }, { emulateJSON: true })
-        .then(response => {
-          console.log(response.body)
-        })
+      // this.$http
+      //   .post(url, { username: phone }, { emulateJSON: true })
+      //   .then(response => {
+      //     console.log(response.body)
+      //   })
     },
     timer() {
       if (this.time > 0) {
@@ -204,6 +214,17 @@ export default {
           console.log(err)
         })
     }
+  },
+  watch: {
+      immediate: true,
+      deep: true,
+      handler(val) {
+        if (val.phone != ''&& val.btnContent != '') {
+          this.submitBtnDisabled = false
+        } else {
+          this.submitBtnDisabled = true
+        }
+      }
   },
   computed: {
     ...mapGetters(['detail'])

@@ -13,17 +13,20 @@
       <div v-for="(item, index) in orderData" class="order-list">
         <router-link :to="/detail/ + item.id">
           <mt-cell :title="item.appointment_date" readonly="readonly">
-            
+
           </mt-cell>
           <mt-cell :title="item.service_title" readonly="readonly">
             <span class="integral">{{ item.price }}</span>
             <!-- {{item.status}} -->
             <span>
-              {{ item.status == 0 ? '已预约' :item.status == 100 ?'已受理':item.status == 200 ?'撤销中':item.status == 300 ?'已撤销':item.status == 400 ?'已取消':'已完成' }}
+              {{item.status == 0 ? '已预约' :item.status == 100 ?'已受理':item.status == 200 ?'撤销中':item.status == 300 ?'已撤销':item.status ==
+              400 ?'已取消':'已完成' }}
             </span>
           </mt-cell>
         </router-link>
-        <mt-button size="small" @click="edit" class="fr"> {{ item.status == 0 ? '取消' :item.status == 100 ?'申请撤销':item.status == 200 ?'再次预约':item.status == 300 ?'再次预约':item.status == 400 ?'再次预约':'取消撤销' }}</mt-button>
+        <mt-button size="small" @click="edit(item)" class="fr" :style="{background:item.status==0||item.status==100||item.status==200?'#E64340':'#09bb07'}">
+          {{ item.status == 0 ? '取消' :item.status == 100 ?'申请撤销':item.status == 200 ?'取消撤销':item.status == 300 ?'再次预约':item.status
+          == 400 ?'再次预约':'再次预约' }}</mt-button>
       </div>
     </div>
   </div>
@@ -40,13 +43,13 @@
           page_size: 6,
           ordering: ''
         },
-        action:0,
+        action: 0
       }
     },
     created() {
       this.orderList()
       // this.edit()
-      // this.editId = this.$route.params
+      this.editData = this.$route.params
     },
     methods: {
       // 定单列表
@@ -54,20 +57,39 @@
         api.orderList(this.list)
           .then(res => {
             this.orderData = res.data
-            // console.log(this.orderData[0].id)
+            // console.log(this.orderData[0].status)
           })
           .catch(err => {
             console.log(err)
           })
       },
       // 修改订单状态
-      edit(){
-        api.editOrder().then(res=>{
-          // console.log(this.$route.params.id)
-        }).catch(err=>{
-          console.log(err)
-        })
-      }
+      edit(item) { 
+        if(item.status==300||item.status==400||item.status==500){
+          this.$router.push({
+            name:'Reservation'        
+          })  
+          this.messagebox.close()
+        } 
+        this.$messagebox({
+          title: `${ item.status == 0 ? '取消' :item.status == 100 ?'申请撤销':item.status == 200 ?'取消撤销'
+          :'再次预约' }订单`,         
+          message:`当前订单${ item.status == 0 ? '取消' :item.status == 100 ?'申请撤销':item.status == 200 ?'取消撤销'
+          :'再次预约' },确定取消？`,
+          cancelButtonText: '取消',
+          confirmButtonText: '确定',
+          showCancelButton: true
+        }).then(action => {
+          if (action == 'confirm') {
+            api.editOrder({ id: item.id, action: 0 }).then(res => {
+              console.log(res)
+              history.go(0) 
+            }).catch(err => {
+              console.log(err)
+            })
+          }
+        })                
+      },
     }
   }
 </script>
