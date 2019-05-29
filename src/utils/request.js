@@ -75,7 +75,7 @@ service.interceptors.response.use(
     if (errorJSON.ret_code === 403 || errorJSON.ret_code === 401) {
       store.dispatch('setLoginDialog', true)
       router.push({
-        path: '/login'
+        path: '/'
       })
     }
     message.error(errorJSON.ret_msg)

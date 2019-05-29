@@ -37,7 +37,7 @@ export default {
   },
   created() {
     this.orderDetail()
-    this.assetDetailId = this.$route.params
+    this.detailDataId = this.$route.params
   },
   methods: {
     orderDetail() {

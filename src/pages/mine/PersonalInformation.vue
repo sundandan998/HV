@@ -70,7 +70,6 @@
 <script>
 import { Toast } from 'mint-ui'
 import { mapGetters } from 'vuex'
-
 // 接口请求
 import api from '@/api/user/User.js'
 export default {

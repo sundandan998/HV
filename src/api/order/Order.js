@@ -24,6 +24,14 @@ export default {
       params: params
     })
   },
+  // 修改订单状态
+  editOrder(params = {}){
+    return request({
+      url: "/order/"+params.id+"/status/modify/",
+      method: 'post',
+      data: params
+    })
+  },
   // 获取订单列表详情
   orderDetail(params = {}) {
     return request({
