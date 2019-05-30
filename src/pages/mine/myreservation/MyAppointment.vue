@@ -25,8 +25,7 @@
           </mt-cell>
         </router-link>
         <mt-button size="small" @click="edit(item)" class="fr" :style="{background:item.status==0||item.status==100||item.status==200?'#E64340':'#09bb07'}">
-          {{ item.status == 0 ? '取消' :item.status == 100 ?'申请撤销':item.status == 200 ?'取消撤销':item.status == 300 ?'再次预约':item.status
-          == 400 ?'再次预约':'再次预约' }}</mt-button>
+          {{ item.status == 0 ? '取消' :item.status == 100 ?'申请撤销':item.status == 200 ?'取消撤销':'再次预约' }}</mt-button>
       </div>
     </div>
   </div>

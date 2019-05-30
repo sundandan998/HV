@@ -53,7 +53,6 @@ export default {
       message: 'mine',
       show:true,
       integral:'',
-
     }
 
   },

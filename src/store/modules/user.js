@@ -12,6 +12,10 @@ const user = {
       state.token = token
       window.sessionStorage.setItem('token', token)
     },
+    SET_ACCESSTOKEN: (state, accessToken) => {
+      state.accessToken = accessTtoken
+      window.sessionStorage.setItem('accessToken', accessToken)
+    },
     SET_USERINFO: (state, userInfo) => {
       state.userInfo = userInfo
       window.sessionStorage.setItem('userInfo', JSON.stringify(userInfo))
@@ -29,6 +33,9 @@ const user = {
     setToken({ commit }, token) {
       commit('SET_TOKEN', token)
     },
+    setAccessToken({ commit }, accessToken) {
+      commit('SET_ACCESSTOKEN', accessToken)
+    },
     setUserInfo({ commit }, userInfo) {
       commit('SET_USERINFO', userInfo)
     },
@@ -45,6 +52,7 @@ const user = {
           .then(response => {
             let nowTime = new Date().getTime()
             commit('SET_TOKEN', response.token)
+            commit('SET_ACCESSTOKEN', response.accessToken)
             commit('SET_TOKENEXPIREDTIME', nowTime + webTokenExpiredTime)
             dispatch('GetUserInfo', true)
               .then(res => {
@@ -55,7 +63,7 @@ const user = {
               })
           })
           .catch(error => {
-            console.log(error)
+            // console.log(error)
             reject(error)
           })
       })
