@@ -26,6 +26,7 @@ const getters = {
         ) {
             store.dispatch("setUserInfo", stroageUserInfo);
         }
+        console.log(state.user.userInfo)
         return state.user.userInfo;
     },
     roleRouter: state => {

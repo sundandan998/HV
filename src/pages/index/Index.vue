@@ -13,25 +13,10 @@
       <mt-cell title="服务名称">
         <span class="price">价格</span>
       </mt-cell>
-      <div v-for="(item, index) in dataList">
+      <div v-for="(item, index) in dataList" :key="index">
         <mt-cell :title="item.title">
           <span class="integral">{{ item.integral }}</span>
-          <!-- @click="modalShow" -->
-          <!-- <router-link
-            :to="{
-              name: 'Reservation',
-              params: {
-                id: item.id,
-                title: item.title,
-                integral: item.integral,
-                mobile: item.mobile,
-                name: item.name
-              }
-            }"
-          > -->
-          <mt-button size="small" @click="judge">预约</mt-button>
-          <!-- <mt-button size="small"  >预约</mt-button> -->
-          <!-- </router-link> -->
+          <mt-button size="small" @click="judge(item.id)">预约</mt-button>
         </mt-cell>
       </div>
     </div>
@@ -67,7 +52,7 @@
         popupVisible: false,
         show: false,
         submitBtnDisabled: true,
-        dataList: '',
+        dataList: [],
         idStatus: '',
         NameStatus: '',
         // 首页列表
@@ -77,9 +62,9 @@
         },
         //login 参数
         verification: {
-          mobile: '',
-          name: '',
-          id_card: '',
+          mobile: '18713351004',
+          name: '张三',
+          id_card: '130427199212301414',
           access_token: '151',
         },
         // openId参数 
@@ -99,13 +84,16 @@
       // console.log(this.phone.value)
     },
     methods: {
-      judge() {
+     
+      judge(id) {
         // debugger
-        if (window.sessionStorage.token != '') {  
+        if (this.$store.getters.token != '') {  
           // window.sessionStorage.setItem("access_token", "")                
           this.$router.push({
-            name:'Reservation'
+            name:'Reservation',
+            params:{list:this.dataList,id:id}
           })          
+          this.$store.commit('detail',this.dataList)  
         } else {
           this.popupVisible = true
         }
@@ -147,7 +135,7 @@
       // 首页列表
       serverList() {
         api
-          .serviceList()
+          .serviceList(this.list)
           .then(res => {
             this.dataList = res.data
             // console.log(this.dataList)

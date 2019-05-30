@@ -37,7 +37,7 @@ export default new Router({
     // 我的预约
     {
       path: '/myappointment',
-      name: 'Information',
+      name: 'Myappointment',
       component: () => import('@/pages/mine/myreservation/MyAppointment')
     },
     // 预约详情

@@ -12,10 +12,10 @@ const user = {
       state.token = token
       window.sessionStorage.setItem('token', token)
     },
-    SET_ACCESSTOKEN: (state, accessToken) => {
-      state.accessToken = accessTtoken
-      window.sessionStorage.setItem('accessToken', accessToken)
-    },
+    // SET_ACCESSTOKEN: (state, token) => {
+    //   state.token = token
+    //   window.sessionStorage.setItem('token', token)
+    // },
     SET_USERINFO: (state, userInfo) => {
       state.userInfo = userInfo
       window.sessionStorage.setItem('userInfo', JSON.stringify(userInfo))
@@ -33,9 +33,6 @@ const user = {
     setToken({ commit }, token) {
       commit('SET_TOKEN', token)
     },
-    setAccessToken({ commit }, accessToken) {
-      commit('SET_ACCESSTOKEN', accessToken)
-    },
     setUserInfo({ commit }, userInfo) {
       commit('SET_USERINFO', userInfo)
     },
@@ -52,7 +49,6 @@ const user = {
           .then(response => {
             let nowTime = new Date().getTime()
             commit('SET_TOKEN', response.token)
-            commit('SET_ACCESSTOKEN', response.accessToken)
             commit('SET_TOKENEXPIREDTIME', nowTime + webTokenExpiredTime)
             dispatch('GetUserInfo', true)
               .then(res => {
@@ -71,7 +67,7 @@ const user = {
     GetUserInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         api
-          .getUserInfo(state.token)
+          .information(state.token)
           .then(response => {
             commit('SET_USERINFO', response)
             commit('SET_ROLEROUTER', [])

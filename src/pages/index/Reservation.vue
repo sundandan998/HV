@@ -12,11 +12,11 @@
       </mt-header>
     </div>
     <!-- 主体部分 -->
-    <div class="reservation-body" >
-      <mt-cell title="预约人" :value="this.add.name"></mt-cell>
-      <mt-cell title="联系电话" :value="this.add.mobile"></mt-cell>
-      <mt-cell title="服务名称" :value="this.detail.title"></mt-cell>
-      <mt-cell title="价格" :value="this.detail.integral"></mt-cell>
+    <div class="reservation-body">
+      <mt-cell title="预约人" value="22" v-model="add.name"></mt-cell>
+      <mt-cell title="联系电话" value="66"v-model="add.mobile"></mt-cell>
+      <mt-cell title="服务名称" :value="detail.title"></mt-cell>
+      <mt-cell title="价格" :value="detail.integral"></mt-cell>
       <div class="reservation-body-time">
         <mt-field
           label="预约时间"
@@ -35,19 +35,22 @@
 import { Toast } from 'mint-ui'
 import { mapGetters } from 'vuex'
 // 接口请求
-import api from '@/api/order/order.js'
+import api from '@/api/order/Order.js'
 export default {
   data() {
     return {
       add: {
-        name: '张三',
-        mobile: '18713351004',
+        name: this.$store.getters.userInfo.data.name,
+        mobile: this.$store.getters.userInfo.data.mobile,
         service_id: 1,
-        appointment_date: ''
+        appointment_date: '',
+        detail:{}
       }
     }
   },
-  created() {},
+  created() {
+    this.detail = this.$route.params.list[this.$route.params.id-1]
+  },
   methods: {
     success() {
       api
@@ -64,9 +67,6 @@ export default {
         })
       
     }
-  },
-  computed: {
-    ...mapGetters(['detail'])
   }
 }
 </script>

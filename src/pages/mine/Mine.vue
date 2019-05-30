@@ -21,9 +21,9 @@
         <mt-cell title="HV(健康积分)" :value="'可用:'+integral.available"></mt-cell>
         <mt-cell :title="integral.total" :value="'冻结:'+integral.freeze"></mt-cell>
         <div class="health-score-btn">
-          <mt-button size="normal">转入</mt-button>
+          <mt-button size="small">转入</mt-button>
           <router-link to="out">
-            <mt-button size="normal" class="fr">转出</mt-button>
+            <mt-button size="small" class="fr">转出</mt-button>
           </router-link>
         </div>
       </div>
