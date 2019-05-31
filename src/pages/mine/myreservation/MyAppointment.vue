@@ -40,7 +40,7 @@
         orderData: '',
         list: {
           page: 1,
-          page_size: 100,
+          page_size: 20,
           ordering: ''
         },
         action: {

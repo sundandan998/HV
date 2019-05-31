@@ -65,7 +65,7 @@
           mobile: '15701644059',
           name: '孙丹丹',
           id_card: '111111111111111111',
-          access_token: '151',
+          access_token:sessionStorage.getItem('access_token')
         },
         // openId参数 
         code: {
@@ -81,18 +81,20 @@
       this.serverList()
       this.openId()
       // this.getQueryString()
-      // console.log(this.phone.value)
+      console.log(sessionStorage.getItem('access_token'))
     },
-    methods: {    
+    methods: {
       judge(id) {
         // debugger
-        if (this.$store.getters.token != '') {  
-          // window.sessionStorage.setItem("access_token", "")                
+        if (this.$store.getters.token != '') {
+          this.$store.commit('detail', access_token)
+          // window.sessionStorage.setItem("access_token",  'access_token')   
+          console.log(this.detail)
           this.$router.push({
-            name:'Reservation',
-            params:{list:this.dataList,id:id}
-          })          
-          this.$store.commit('detail',this.dataList)  
+            name: 'Reservation',
+            params: { list: this.dataList, id: id }
+          })
+          this.$store.commit('detail', this.dataList)
         } else {
           this.modalShow()
         }
@@ -110,6 +112,7 @@
           })
       },
       openId() {
+        // debugger
         var url = window.location.href
         var reg = new RegExp('(^|&)' + "code" + '=([^&]*)(&|$)', 'i')
         // debugger
@@ -124,11 +127,17 @@
           return null
         }
         var code = unescape(r[2])
-        // console.log(code)
+        console.log(code)
+        // debugger
         api.openId({ code: code }).then(res => {
-          this.$store.commit('detail', res.info)
+          this.$store.commit('detail', res.data)
         }).catch(err => {
-          console.log(err)
+          // console.log(err)
+          // debugger
+          if (err.code == 4003) {
+            console.log(err.access_token)
+           window.sessionStorage.setItem("access_token",  JSON.stringify(err.access_token)) 
+          }          
         })
       },
       // 首页列表
@@ -138,7 +147,7 @@
           .then(res => {
             this.dataList = res.data
             // console.log(this.dataList)
-            this.$store.commit('detail',res.data)
+            this.$store.commit('detail', res.data)
           })
           .catch(err => {
             console.log(err)
