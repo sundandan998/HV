@@ -13,8 +13,8 @@
     </div>
     <!-- 主体部分 -->
     <div class="reservation-body">
-      <mt-cell title="预约人" value="22" v-model="add.name"></mt-cell>
-      <mt-cell title="联系电话" value="66"v-model="add.mobile"></mt-cell>
+      <mt-cell title="预约人" :value="add.name" v-model="add.name"></mt-cell>
+      <mt-cell title="联系电话" :value="add.mobile"v-model="add.mobile"></mt-cell>
       <mt-cell title="服务名称" :value="detail.title"></mt-cell>
       <mt-cell title="价格" :value="detail.integral"></mt-cell>
       <div class="reservation-body-time">
@@ -35,14 +35,14 @@
 import { Toast } from 'mint-ui'
 import { mapGetters } from 'vuex'
 // 接口请求
-import api from '@/api/order/Order.js'
+import api from '@/api/order/order.js'
 export default {
   data() {
     return {
       add: {
         name: this.$store.getters.userInfo.data.name,
         mobile: this.$store.getters.userInfo.data.mobile,
-        service_id: 1,
+        service_id: this.$route.params.id,
         appointment_date: '',
         detail:{}
       }
@@ -50,6 +50,7 @@ export default {
   },
   created() {
     this.detail = this.$route.params.list[this.$route.params.id-1]
+    // console.log(this.detail.id)
   },
   methods: {
     success() {

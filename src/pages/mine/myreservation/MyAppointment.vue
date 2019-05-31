@@ -82,6 +82,7 @@
           if (action == 'confirm') {
             api.editOrder({ id: item.id, action: actionStatus }).then(res => {
               if (item.status == 300 || item.status == 400 || item.status == 500) {
+                // console.log('131')
                 this.$router.push({
                   name: 'Reservation',
                   params: { list: [{ integral: item.price, title: item.service_title }], id: 1 }

@@ -62,9 +62,9 @@
         },
         //login 参数
         verification: {
-          mobile: '18713351004',
-          name: '张三',
-          id_card: '130427199212301414',
+          mobile: '15701644059',
+          name: '孙丹丹',
+          id_card: '111111111111111111',
           access_token: '151',
         },
         // openId参数 
@@ -83,8 +83,7 @@
       // this.getQueryString()
       // console.log(this.phone.value)
     },
-    methods: {
-     
+    methods: {    
       judge(id) {
         // debugger
         if (this.$store.getters.token != '') {  
@@ -95,7 +94,7 @@
           })          
           this.$store.commit('detail',this.dataList)  
         } else {
-          this.popupVisible = true
+          this.modalShow()
         }
       },
       // 预约
@@ -139,7 +138,7 @@
           .then(res => {
             this.dataList = res.data
             // console.log(this.dataList)
-            this.$store.commit('detail', res.data)
+            this.$store.commit('detail',res.data)
           })
           .catch(err => {
             console.log(err)
