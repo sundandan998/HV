@@ -1,8 +1,9 @@
+
 <template>
   <div class="index">
     <div class="index-header">
       <!-- 头部header -->
-      <mt-header title="">
+      <mt-header title>
         <router-link to="/" slot="left">
           <mt-button icon="back" v-on:click="$router.go(-1)">首页</mt-button>
         </router-link>
@@ -22,180 +23,125 @@
     </div>
     <!-- 底部tabber -->
     <div>
-      <app-tabber :message="selected"></app-tabber>
+      <tabber :message="selected" @showLogin="showLoginModal"></tabber>
     </div>
     <!-- 弹框 -->
-    <div class="modal">
-      <mt-popup v-model="popupVisible" :closeOnClickModal="clickfalse" @click="modalHide">
-        <span>HV认证</span>
-        <img class="fr" @click="modalHide" src="../../assets/images/cancel.svg" alt="" />
-        <mt-field label="手机号" type="tel" v-model="verification.mobile" :state="NameStatus" @blur.native.capture="sendCode" :attr="{ maxlength: 11 }"></mt-field>
-        <mt-field label="用户名" type="tel" v-model="verification.name"></mt-field>
-        <mt-field label="身份证号码" type="tel" v-model="verification.id_card" :state="idStatus" :attr="{ maxlength: 18 }" @blur.native.capture="idCard"></mt-field>
-        <!-- id="disbtn" -->
-        <mt-button size="large" :disabled="submitBtnDisabled" @click="handleLogin">认证</mt-button>
-      </mt-popup>
-    </div>
+    <login :showLogin=showModalLogin @isShowLogin = "showLoginModal"></login>
   </div>
 </template>
 <script>
-  import Tabber from '../../assets/tabber/Tabber.vue'
-  // 接口请求
-  import api from '@/api/user/User.js'
-  export default {
-    data() {
-      return {
-        selected: 'index',
-        message: 'index',
-        readonly: true,
-        clickfalse: false,
-        popupVisible: false,
-        show: false,
-        submitBtnDisabled: true,
-        dataList: [],
-        idStatus: '',
-        NameStatus: '',
-        // 首页列表
-        list: {
-          page: 1,
-          page_size: 6
-        },
-        //login 参数
-        verification: {
-          mobile: '15701644059',
-          name: '孙丹丹',
-          id_card: '111111111111111111',
-          access_token:sessionStorage.getItem('access_token')
-        },
-        // openId参数 
-        code: {
-          code: ''
-        }
+import Tabber from '../../assets/tabber/Tabber.vue'
+import Login from '@/components/login.vue'
+// 接口请求
+import api from '@/api/user/User.js'
+export default {
+  data () {
+    return {
+      selected: 'index',
+      message: 'index',
+      readonly: true,
+      showModalLogin: false,
+      show: false,
+      submitBtnDisabled: true,
+      dataList: [],
+      // 首页列表
+      list: {
+        page: 1,
+        page_size: 6
+      },
+      // openId参数
+      code: {
+        code: ''
+      }
+    }
+  },
+  created () {
+    this.serverList()
+    this.openId()
+  },
+  components: {
+    Tabber,
+    Login
+  },
+  openId () {
+    var url = window.location.href
+    var reg = new RegExp('(^|&)' + 'code' + '=([^&]*)(&|$)', 'i')
+    // debugger
+    var r = window.location.href.split('?')
+    if (r.length === 1) {
+      return null
+    }
+    r = r[1]
+    r = r.match(reg)
+    if (r == null) {
+      return null
+    }
+    var code = unescape(r[2])
+    api.openId({ code: code }).then(res => {
+      this.$store.commit('detail', res.info)
+    }).catch(err => {
+      console.log(err)
+    })
+  },
+  methods: {
+    judge (id) {
+      // debugger
+      if (this.$store.getters.token !== '') {
+        this.showModalLogin = false
+        this.$router.push({
+          name: 'Reservation',
+          params: {list: this.dataList, id: id}
+        })
+        this.$store.commit('detail', this.dataList)
+      } else {
+        this.showModalLogin = true
       }
     },
-    components: {
-      'app-tabber': Tabber
+    showLoginModal () {
+      this.showModalLogin = !this.showModalLogin
     },
-    created() {
-      // this.modalHide()
-      this.serverList()
-      this.openId()
-      // this.getQueryString()
-      console.log(sessionStorage.getItem('access_token'))
-    },
-    methods: {
-      judge(id) {
-        // debugger
-        if (this.$store.getters.token != '') {
-          this.$store.commit('detail', access_token)
-          // window.sessionStorage.setItem("access_token",  'access_token')   
-          console.log(this.detail)
-          this.$router.push({
-            name: 'Reservation',
-            params: { list: this.dataList, id: id }
-          })
-          this.$store.commit('detail', this.dataList)
-        } else {
-          this.modalShow()
-        }
-      },
-      // 预约
-      handleLogin() {
-        this.$store.dispatch('loginByCode', this.verification)
-          .then(res => {
-            console.log(res)
-            this.modalHide()
-            this.$store.commit('detail', res.data)
-          })
-          .catch(err => {
-            console.log(err)
-          })
-      },
-      openId() {
-        // debugger
-        var url = window.location.href
-        var reg = new RegExp('(^|&)' + "code" + '=([^&]*)(&|$)', 'i')
-        // debugger
-        var r = window.location.href.split('?')
-        if (r.length == 1) {
-          return null
-        }
-        var r = r[1]
-        var r = r.match(reg)
-        // console.log( window.location.href.substr(1).match(url))
-        if (r == null) {
-          return null
-        }
-        var code = unescape(r[2])
-        console.log(code)
-        // debugger
-        api.openId({ code: code }).then(res => {
+    openId () {
+      var url = window.location.href
+      var reg = new RegExp('(^|&)' + 'code' + '=([^&]*)(&|$)', 'i')
+      // debugger
+      var r = window.location.href.split('?')
+      if (r.length === 1) {
+        return null
+      }
+      r = r[1]
+      r = r.match(reg)
+      console.log(window.location.href.substr(1).match(url))
+      if (r == null) {
+        return null
+      }
+      var code = unescape(r[2])
+      api.openId({ code: code }).then(res => {
           this.$store.commit('detail', res.data)
         }).catch(err => {
           // console.log(err)
           // debugger
           if (err.code == 4003) {
             console.log(err.access_token)
-           window.sessionStorage.setItem("access_token",  JSON.stringify(err.access_token)) 
+           window.sessionStorage.setItem("access_token", err.access_token)
           }          
         })
-      },
-      // 首页列表
-      serverList() {
-        api
-          .serviceList(this.list)
-          .then(res => {
-            this.dataList = res.data
-            // console.log(this.dataList)
-            this.$store.commit('detail', res.data)
-          })
-          .catch(err => {
-            console.log(err)
-          })
-      },
-      // 手机号校验
-      sendCode() {
-        var reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/
-        //var url="/nptOfficialWebsite/apply/sendSms?mobile="+this.ruleForm.phone;
-        if (!reg.test(this.verification.mobile)) {
-          this.NameStatus = 'error'
-        } else {
-          this.NameStatus = 'success'
-        }
-      },
-      // 身份证号验证
-      idCard() {
-        var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
-        if (!reg.test(this.verification.id_card)) {
-          this.idStatus = 'error'
-        } else {
-          this.idStatus = 'success'
-        }
-      },
-      // 模态框显示
-      modalShow() {
-        this.popupVisible = true
-      },
-      // 模态框隐藏
-      modalHide() {
-        this.popupVisible = false
-      }
     },
-    watch: {
-      verification: {
-        immediate: true,
-        deep: true,
-        handler(val) {
-          if (val.mobile != '' && val.name != '' && val.id_card != '') {
-            this.submitBtnDisabled = false
-          } else {
-            this.submitBtnDisabled = true
-          }
-        }
-      }
+    // 首页列表
+    serverList () {
+      api
+        .serviceList(this.list)
+        .then(res => {
+          this.dataList = res.data
+          this.$store.commit('detail', res.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }
+
+}
 </script>
 <style lang="scss">
-  @import '../../assets/scss/Global.scss'
+@import "../../assets/scss/Global.scss";
 </style>

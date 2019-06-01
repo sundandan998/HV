@@ -16,8 +16,8 @@
       </div>
       <div class="transfer-out-body-field">
         <mt-field label="接收人" v-model="turnIntegral.recipient"></mt-field>
-        <mt-field label="手机号" v-model="turnIntegral.mobile"></mt-field>
-        <mt-field label="积分数量" v-model="turnIntegral.amount"></mt-field>
+        <mt-field label="手机号" type="tel" v-model="turnIntegral.mobile"></mt-field>
+        <mt-field label="积分数量" type="tel" v-model="turnIntegral.amount"></mt-field>
       </div>
     </div>
     <div class="transfer-out-button">

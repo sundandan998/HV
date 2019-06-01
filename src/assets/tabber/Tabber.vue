@@ -28,19 +28,24 @@ export default {
       default: ''
     }
   },
-  data() {
+  data () {
     return {}
   },
   methods: {
-    index() {
+    index () {
       this.$router.push({
         name: 'Index'
       })
     },
-    mine() {
-      this.$router.push({
-        name: 'Mine'
-      })
+    mine () {
+      if (this.$store.getters.token !== '') {
+        this.$router.push({
+          name: 'Mine'
+        })
+      } else {
+        this.$emit('showLogin')
+      }
+    //
     }
   }
 }
