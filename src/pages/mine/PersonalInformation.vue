@@ -17,9 +17,11 @@
       <mt-popup v-model="popupVisible" :closeOnClickModal="clickfalse">
         <span>更换手机号</span>
         <img class="fr" @click="modalHide" src="../../assets/images/cancel.svg" alt="" />
-        <mt-field label="手机号" @blur.native.capture="sendcode" placeholder="请输入手机号" type="tel" @click="sendcode" v-model="phone.mobile" :state="NameStatus" :attr="{ maxlength: 11 }"></mt-field>
+        <mt-field label="手机号" @blur.native.capture="sendcode" placeholder="请输入手机号" type="tel" @click="sendcode" v-model="phone.mobile"
+          :state="NameStatus" :attr="{ maxlength: 11 }"></mt-field>
         <mt-field label="验证码" v-model="phone.verifyNum">
-          <input v-on:click="sendSmsCode" type="button" @click="sendcode" v-model="btnContent" v-bind="{ disabled: disabled }" />
+          <!-- <mt-button size="small" class="send-code-btn" v-on:click="sendSmsCode" v-model="btnContent" disabled="disabled">发送</mt-button> -->
+          <input type="button" v-on:click="sendSmsCode" v-model="btnContent" v-bind="{ disabled: disabled }" />
         </mt-field>
         <mt-button size="large" @click.native="success" :disabled="submitBtnDisabled">确定</mt-button>
       </mt-popup>
@@ -37,8 +39,8 @@
         clickfalse: false,
         popupVisible: false,
         NameStatus: '',
-        phone: '',
         time: 0,
+        phone: '',
         btnContent: '发送',
         disabled: false,
         infor: '',
@@ -58,11 +60,7 @@
     },
     methods: {
       // 手机号校验
-
       sendcode() {
-        // debugger
-        api.sendCode(this.phone).then(res => {
-        }).catch(err => { })
         var reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/
         if (!reg.test(this.phone.mobile)) {
           this.NameStatus = 'error'
@@ -106,10 +104,40 @@
       // 验证码
       // 获取验证码
       sendSmsCode() {
-        this.time = 60
-        this.timer()
+        // debugger
+        var reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/ //手机号正则验证
+        var phone = this.phone.mobile
+        if (phone == '') {
+          //未输入手机号
+          Toast({
+            message: '手机号格式错误',
+            position: 'top',
+          })
+          return
+        }
+        if (!reg.test(phone)) {
+          //手机号不合法
+          Toast({
+            message: '手机号格式错误',
+            position: 'top',
+          })
+          return
+        }
+        api.sendCode(this.phone).then(res => {
+          if (res.code == 0) {
+            this.time = 60
+            this.timer()
+          } else {
+            Toast({
+              message: err.msg
+            })
+          }
+        }).catch(err => {
+
+        })
+
         // 获取验证码请求
-        var url = 'http://bosstan.asuscomm.com/api/common/sendSmsCode'
+        // var url = 'http://bosstan.asuscomm.com/api/common/sendSmsCode'
         // this.$http
         //   .post(url, { username: phone }, { emulateJSON: true })
         //   .then(response => {

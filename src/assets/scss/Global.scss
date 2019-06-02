@@ -1,6 +1,7 @@
 body {
   background-color: #f2f2f2;
 }
+
 a {
   text-decoration: none;
 }
@@ -16,10 +17,15 @@ a {
 .mint-cell {
   margin-bottom: 10px;
 }
+
+.health-score-btn button{
+background-color: #09bb07 !important;
+ width: 30%;
+}
 .mint-button--default {
-  background-color: #09bb07 !important;
+  // background-color: #09bb07 !important;
   color: #fff !important;
-  width: 25%;
+  // width: 30%;
 }
 .mint-cell-wrapper {
   background-image: none !important;
@@ -27,14 +33,31 @@ a {
 #disbtn {
   background-color: #ccc;
 }
+.mint-cell:last-child{
+  background-image:none !important;
+}
+.mint-cell-value span{
+  color: #333;
+}
 // 首页
 .index-body {
   input placeholder {
     color: #333;
   }
+  .index-judge{
+    width: 40%;
+    background-color: #09bb07 !important;
+  }
 }
 span.price {
   margin-right: 110px;
+}
+.index-cell{
+  min-height:35px !important;
+  span{
+    font-size:14px;
+    color: #333;
+  }
 }
 // 我的
 .health-score {
@@ -81,6 +104,7 @@ span.price {
     bottom: 30px;
     position: fixed;
     margin-left: 9px;
+    background-color: #09bb07 !important;
 }
 }
 // 转出
@@ -108,9 +132,9 @@ span.price {
 .information-body-bot {
   margin-top: 15px;
 }
-.send-code-btn{
-  width: 100% !important;
-}
+// .modal .send-code-btn{
+//   width: 100% !important;
+// }
 // 我的预约
 .my-appointment-body {
   height: 100px;
@@ -153,6 +177,7 @@ span.integral {
   button {
     width: 90%;
     margin: 0 auto;
+    background-color: #09bb07 !important;
   }
   img {
     position: relative;

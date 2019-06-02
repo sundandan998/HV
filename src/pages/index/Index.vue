@@ -10,13 +10,13 @@
         </mt-header>
       </div> -->
       <div class="index-body">
-        <mt-cell title="服务名称">
+        <mt-cell title="服务名称" class="index-cell">
           <span class="price">价格</span>
         </mt-cell>
         <div v-for="(item, index) in dataList" :key="index">
           <mt-cell :title="item.title">
             <span class="integral">{{ item.integral }}</span>
-            <mt-button size="small" @click.native="judge(item.id)">预约</mt-button>
+            <mt-button size="small" @click.native="judge(item.id)" class="index-judge">预约</mt-button>
           </mt-cell>
         </div>
       </div>
