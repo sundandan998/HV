@@ -1,16 +1,5 @@
 <template>
   <div class="appointment-detail">
-    <div class="my-appointment-header">
-      <!-- 头部header -->
-      <mt-header title="">
-        <router-link to="/" slot="left">
-          <mt-button icon="back" v-on:click="$router.go(-1)"
-            >预约详情</mt-button
-          >
-        </router-link>
-        <mt-button icon="more" slot="right"></mt-button>
-      </mt-header>
-    </div>
     <div class="my-appointment-body-top">
       <mt-cell
         title="接收服务时间"
@@ -36,6 +25,7 @@ export default {
     }
   },
   created() {
+    document.title = '预约详情'
     this.orderDetail()
     this.detailDataId = this.$route.params
   },

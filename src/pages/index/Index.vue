@@ -1,14 +1,14 @@
 <template>
     <div class="index">
-      <div class="index-header">
-        <!-- 头部header -->
+      <!-- <div class="index-header">
+        头部header
         <mt-header title>
           <router-link to="/" slot="left">
-            <mt-button icon="back" v-on:click="$router.go(-1)">首页</mt-button>
+            <mt-button icon="back" v-on:click="$router.go(-1)">hv</mt-button>
           </router-link>
           <mt-button icon="more" slot="right"></mt-button>
         </mt-header>
-      </div>
+      </div> -->
       <div class="index-body">
         <mt-cell title="服务名称">
           <span class="price">价格</span>
@@ -55,6 +55,7 @@
         }
       },
       created() {
+        document.title = 'hv'
         this.serverList()
         this.openId()
       },
@@ -70,7 +71,7 @@
           // debugger
           if (this.$store.getters.token !== '') {
             this.showModalLogin = false
-            console.log( this.showModalLogin)
+            // console.log( this.showModalLogin)
             this.$router.push({
               name: 'Reservation',
               params: { list: this.dataList, id: id }
@@ -78,7 +79,7 @@
             this.$store.commit('detail', this.dataList)
           } else {
             this.showModalLogin = true
-            console.log( this.showModalLogin)
+            // console.log( this.showModalLogin)
           }
         },
         showLoginModal() {

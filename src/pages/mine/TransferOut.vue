@@ -1,14 +1,5 @@
 <template>
   <div class="transfer-out">
-    <div class="transfer-out-header">
-      <!-- 头部header -->
-      <mt-header title="">
-        <router-link to="/" slot="left">
-          <mt-button icon="back" v-on:click="$router.go(-1)">转出</mt-button>
-        </router-link>
-        <mt-button icon="more" slot="right"></mt-button>
-      </mt-header>
-    </div>
     <div class="transfer-out-body">
       <div class="transfer-out-body-cell">
         <mt-cell title="HV(健康积分)" :value="'可用:' + this.detail.available"></mt-cell>
@@ -40,8 +31,10 @@
         }
       }
     },
+    created(){
+      document.title = '转出'
+    },
     methods: {
-
       success() {
         //debugger
         // console.log(msg)

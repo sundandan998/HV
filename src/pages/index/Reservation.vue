@@ -1,16 +1,5 @@
 <template>
   <div class="reservation">
-    <div class="reservation-header">
-      <!-- 头部header -->
-      <mt-header title="">
-        <router-link to="/" slot="left">
-          <mt-button icon="back" v-on:click="$router.go(-1)"
-            >预约信息</mt-button
-          >
-        </router-link>
-        <mt-button icon="more" slot="right"></mt-button>
-      </mt-header>
-    </div>
     <!-- 主体部分 -->
     <div class="reservation-body">
       <mt-cell title="预约人" :value="add.name" v-model="add.name"></mt-cell>
@@ -27,7 +16,7 @@
       </div>
     </div>
     <div class="reservation-btn">
-      <mt-button size="large" @click="success">确认</mt-button>
+      <mt-button size="large" @click="success" >确认</mt-button>
     </div>
   </div>
 </template>
@@ -49,6 +38,7 @@ export default {
     }
   },
   created() {
+    document.title = '预约信息'
     this.detail = this.$route.params.list[this.$route.params.id-1]
     // console.log(this.detail.id)
   },

@@ -1,14 +1,14 @@
 <template>
   <div class="home">
-    <div class="home-header">
-      <!-- 头部header -->
+    <!-- <div class="home-header">
+      头部header
       <mt-header title="">
         <router-link to="/" slot="left">
           <mt-button icon="back">我的</mt-button>
         </router-link>
         <mt-button icon="more" slot="right"></mt-button>
       </mt-header>
-    </div>
+    </div> -->
     <!-- 中间部分 -->
     <div class="home-body">
   <!--     <div class="health-score" v-if="show">
@@ -23,7 +23,7 @@
         <div class="health-score-btn">
           <mt-button size="small">转入</mt-button>
           <router-link to="out">
-            <mt-button size="small" class="fr">转出</mt-button>
+            <mt-button size="small" class="fr turn-out">转出</mt-button>
           </router-link>
         </div>
       </div>
@@ -60,6 +60,7 @@ export default {
     'app-tabber': Tabber
   },
   created(){
+    document.title = '我的'
     this.userIntegral()
   },
   methods:{
