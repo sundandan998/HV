@@ -11,10 +11,9 @@
         @blur.native.capture="sendCode"
         :attr="{ maxlength: 11 }"
       ></mt-field>
-      <mt-field label="用户名" type="tel" v-model="verification.name"></mt-field>
+      <mt-field label="用户名"  v-model="verification.name"></mt-field>
       <mt-field
         label="身份证号码"
-        type="tel"
         v-model="verification.id_card"
         :state="idStatus"
         :attr="{ maxlength: 18 }"
@@ -26,6 +25,7 @@
   </div>
 </template>
 <script>
+import { Toast } from 'mint-ui'
 export default {
   name: 'login',
   props: {
@@ -69,14 +69,21 @@ export default {
     // 登录
     handleLogin () {
       this.verification.access_token = sessionStorage.getItem('access_token')
-      console.log(this.verification)
+      // console.log(this.verification)
       this.$store.dispatch('loginByCode', this.verification)
         .then(res => {
+          if(this.$store.getters.token !== ''){
           this.isShowModalHide()
           this.$store.commit('detail', res.data)
+          Toast({
+              message: res.msg
+            })
+          }            
         })
         .catch(err => {
-          console.log(err)
+          Toast({
+              message: err.msg
+            })
         })
     },
     // 模态框隐藏

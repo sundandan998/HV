@@ -17,11 +17,11 @@ a {
   margin-bottom: 10px;
 }
 .mint-button--default {
-  background-color: #09bb07;
-  color: #fff;
+  background-color: #09bb07 !important;
+  color: #fff !important;
 }
 .mint-cell-wrapper {
-  background-image: none;
+  background-image: none !important;
 }
 // 头部样式
 .mint-header {

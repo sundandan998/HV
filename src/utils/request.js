@@ -35,7 +35,7 @@ service.interceptors.request.use(
   config => {
     config.headers['Content-Type'] =
       'application/x-www-form-urlencoded;charset=UTF-8'
-    store.dispatch('CheckTokenExpiredTime') // 每次请求前，检查token是否过期，没过期更新，过期退出登录。
+    // store.dispatch('CheckTokenExpiredTime') // 每次请求前，检查token是否过期，没过期更新，过期退出登录。
     if (store.getters.token) {
       config.headers['Authorization'] = 'JWT ' + store.getters.token
     }

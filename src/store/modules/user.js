@@ -5,7 +5,7 @@ const user = {
     userInfo: {},
     token: '',
     roleRouter: [],
-    tokenExpiredTime: 0
+    // tokenExpiredTime: 0
   },
   mutations: {
     SET_TOKEN: (state, token) => {
@@ -24,24 +24,24 @@ const user = {
       state.roleRouter = roleRouter
       window.sessionStorage.setItem('roleRouter', JSON.stringify(roleRouter))
     },
-    SET_TOKENEXPIREDTIME: (state, tokenExpiredTime) => {
-      state.tokenExpiredTime = tokenExpiredTime
-      window.sessionStorage.setItem('tokenExpiredTime', tokenExpiredTime)
-    }
+    // SET_TOKENEXPIREDTIME: (state, tokenExpiredTime) => {
+    //   state.tokenExpiredTime = tokenExpiredTime
+    //   window.sessionStorage.setItem('tokenExpiredTime', tokenExpiredTime)
+    // }
   },
   actions: {
-    setToken({ commit }, token) {
+    setToken({dispatch, commit }, token) {
       commit('SET_TOKEN', token)
     },
-    setUserInfo({ commit }, userInfo) {
+    setUserInfo({dispatch, commit }, userInfo) {
       commit('SET_USERINFO', userInfo)
     },
     setRoleRouter({ commit }, roleRouter) {
       commit('SET_ROLEROUTER', roleRouter)
     },
-    setTokenExpiredTime({ commit }, tokenExpiredTime) {
-      commit('SET_TOKENEXPIREDTIME', tokenExpiredTime)
-    },
+    // setTokenExpiredTime({ commit }, tokenExpiredTime) {
+    //   commit('SET_TOKENEXPIREDTIME', tokenExpiredTime)
+    // },
     loginByCode({ dispatch, commit }, userInfo) {
       return new Promise((resolve, reject) => {
         api
@@ -49,7 +49,7 @@ const user = {
           .then(response => {
             let nowTime = new Date().getTime()
             commit('SET_TOKEN', response.token)
-            commit('SET_TOKENEXPIREDTIME', nowTime + webTokenExpiredTime)
+            // commit('SET_TOKENEXPIREDTIME', nowTime + webTokenExpiredTime)
             dispatch('GetUserInfo', true)
               .then(res => {
                 resolve(res)
@@ -83,7 +83,7 @@ const user = {
         commit('SET_TOKEN', '')
         commit('SET_USERINFO', {})
         commit('SET_ROLEROUTER', [])
-        commit('SET_TOKENEXPIREDTIME', 0)
+        // commit('SET_TOKENEXPIREDTIME', 0)
         resolve()
       })
     },
@@ -91,19 +91,19 @@ const user = {
      * 1.checkeTokenOver 请求钱每次触发该函数，看是否过期，如果过期，清空token，如果不过期，直接继续
      * 2.每次更新的也就是下次过期节点，不需要有其它状态。
      */
-    CheckTokenExpiredTime(store) {
-      let nowTime = new Date().getTime()
-      if (
-        store.getters.tokenExpiredTime &&
-        nowTime < store.getters.tokenExpiredTime
-      ) {
-        store.commit('SET_TOKENEXPIREDTIME', nowTime + webTokenExpiredTime)
-        return true
-      } else {
-        store.dispatch('FedLogOut')
-        return false
-      }
-    }
+    // CheckTokenExpiredTime(store) {
+    //   let nowTime = new Date().getTime()
+    //   if (
+    //     store.getters.tokenExpiredTime &&
+    //     nowTime < store.getters.tokenExpiredTime
+    //   ) {
+    //     store.commit('SET_TOKENEXPIREDTIME', nowTime + webTokenExpiredTime)
+    //     return true
+    //   } else {
+    //     store.dispatch('FedLogOut')
+    //     return false
+    //   }
+    // }
   }
 }
 export default user

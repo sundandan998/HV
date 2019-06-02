@@ -41,14 +41,14 @@ const getters = {
         }
         return state.user.roleRouter;
     },
-    tokenExpiredTime: state => {
-        let stroageTokenExpiredTime = window.sessionStorage.getItem(
-            "tokenExpiredTime"
-        );
-        if (state.user.tokenExpiredTime === 0) {
-            store.dispatch("setTokenExpiredTime", stroageTokenExpiredTime);
-        }
-        return state.user.tokenExpiredTime;
-    }
+    // tokenExpiredTime: state => {
+    //     let stroageTokenExpiredTime = window.sessionStorage.getItem(
+    //         "tokenExpiredTime"
+    //     );
+    //     if (state.user.tokenExpiredTime === 0) {
+    //         store.dispatch("setTokenExpiredTime", stroageTokenExpiredTime);
+    //     }
+    //     return state.user.tokenExpiredTime;
+    // }
 };
 export default getters;
