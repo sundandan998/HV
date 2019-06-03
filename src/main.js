@@ -8,6 +8,7 @@ import axios from 'axios'
 import store from './store'
 import 'mint-ui/lib/style.css'
 Vue.use(MintUI)
+Vue.use(axios)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

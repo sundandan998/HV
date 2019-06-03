@@ -28,7 +28,7 @@
         </div>
       </div>
       <div class="health-information">
-        <mt-cell title="个人信息" to="information"is-link >
+        <mt-cell title="个人信息" to="information" is-link >
           <img slot="icon"  src="../../assets/images/information.svg">
         </mt-cell>
         <mt-cell title="我的预约" to="myAppointment" is-link>
@@ -40,30 +40,29 @@
     <div>
       <app-tabber :message="selected"></app-tabber>
     </div>
-  </div></div>
+</div>
 </template>
 <script>
 import Tabber from '../../assets/tabber/Tabber.vue'
 // 接口请求
 import api from '@/api/user/User.js'
 export default {
-  data() {
+  data () {
     return {
       selected: 'mine',
       message: 'mine',
-      show:true,
-      integral:'',
+      show: true,
+      integral: ''
     }
-
   },
   components: {
     'app-tabber': Tabber
   },
-  created(){
+  created () {
     document.title = '我的'
     this.userIntegral()
   },
-  methods:{
+  methods: {
     // 隐藏与显示
   //   block(){
   //    if(this.show==true){
@@ -73,17 +72,16 @@ export default {
   //   }
   // }
   // 用户积分
-  userIntegral(){
-    api.userIntegral().then(res=>{
-      this.integral = res.data
-      this.$store.commit('detail', res.data)
-      // console.log(res)
-    }).catch(err=>{
-      console.log(err)
-    })
-  },
-
-}
+    userIntegral () {
+      api.userIntegral().then(res => {
+        this.integral = res.data
+        this.$store.commit('detail', res.data)
+        // console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+  }
 }
 </script>
 <style lang="scss">

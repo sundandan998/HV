@@ -1,10 +1,10 @@
 import api from '@/api/user/User.js'
-let webTokenExpiredTime = 60 * 60 * 1000 // 前端控制，如果两个小时没有操作，退出登录。
+// let webTokenExpiredTime = 60 * 60 * 1000 // 前端控制，如果两个小时没有操作，退出登录。
 const user = {
   state: {
     userInfo: {},
     token: '',
-    roleRouter: [],
+    roleRouter: []
     // tokenExpiredTime: 0
   },
   mutations: {
@@ -23,31 +23,31 @@ const user = {
     SET_ROLEROUTER: (state, roleRouter) => {
       state.roleRouter = roleRouter
       window.sessionStorage.setItem('roleRouter', JSON.stringify(roleRouter))
-    },
+    }
     // SET_TOKENEXPIREDTIME: (state, tokenExpiredTime) => {
     //   state.tokenExpiredTime = tokenExpiredTime
     //   window.sessionStorage.setItem('tokenExpiredTime', tokenExpiredTime)
     // }
   },
   actions: {
-    setToken({dispatch, commit }, token) {
+    setToken ({ dispatch, commit }, token) {
       commit('SET_TOKEN', token)
     },
-    setUserInfo({dispatch, commit }, userInfo) {
+    setUserInfo ({ dispatch, commit }, userInfo) {
       commit('SET_USERINFO', userInfo)
     },
-    setRoleRouter({ commit }, roleRouter) {
+    setRoleRouter ({ commit }, roleRouter) {
       commit('SET_ROLEROUTER', roleRouter)
     },
     // setTokenExpiredTime({ commit }, tokenExpiredTime) {
     //   commit('SET_TOKENEXPIREDTIME', tokenExpiredTime)
     // },
-    loginByCode({ dispatch, commit }, userInfo) {
+    loginByCode ({ dispatch, commit }, userInfo) {
       return new Promise((resolve, reject) => {
         api
           .loginByCode(userInfo)
           .then(response => {
-            let nowTime = new Date().getTime()
+            // let nowTime = new Date().getTime()
             commit('SET_TOKEN', response.token)
             // commit('SET_TOKENEXPIREDTIME', nowTime + webTokenExpiredTime)
             dispatch('GetUserInfo', true)
@@ -64,7 +64,7 @@ const user = {
           })
       })
     },
-    GetUserInfo({ commit, state }) {
+    GetUserInfo ({ commit, state }) {
       return new Promise((resolve, reject) => {
         api
           .information(state.token)
@@ -78,7 +78,7 @@ const user = {
           })
       })
     },
-    FedLogOut({ commit }) {
+    FedLogOut ({ commit }) {
       return new Promise(resolve => {
         commit('SET_TOKEN', '')
         commit('SET_USERINFO', {})
@@ -86,7 +86,7 @@ const user = {
         // commit('SET_TOKENEXPIREDTIME', 0)
         resolve()
       })
-    },
+    }
     /**
      * 1.checkeTokenOver 请求钱每次触发该函数，看是否过期，如果过期，清空token，如果不过期，直接继续
      * 2.每次更新的也就是下次过期节点，不需要有其它状态。

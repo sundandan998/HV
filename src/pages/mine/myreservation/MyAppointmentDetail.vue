@@ -15,33 +15,29 @@
   </div>
 </template>
 <script>
-  // 接口请求
-  import api from '@/api/order/order.js'
-  export default {
-    data() {
-      return {
-        detailData: ''
-      }
-    },
-    created() {
-      document.title = '预约详情'
-      this.orderDetail()
-      this.detailDataId = this.$route.params
-    },
-    methods: {
-      orderDetail() {
-        api
-          .orderDetail(this.$route.params)
-          .then(res => {
-            this.detailData = res.data
-            // console.log(res)
-          })
-          .catch(err => {
-            console.log(err)
-          })
-      }
+// 接口请求
+import api from '@/api/order/order.js'
+export default {
+  data () {
+    return {
+      detailData: ''
+    }
+  },
+  created () {
+    document.title = '预约详情'
+    this.orderDetail()
+    this.detailDataId = this.$route.params
+  },
+  methods: {
+    orderDetail () {
+      api.orderDetail(this.$route.params).then(res => {
+        this.detailData = res.data
+      }).catch(err => {
+        console.log(err)
+      })
     }
   }
+}
 </script>
 <style lang="scss">
   @import '../../../assets/scss/Global.scss';

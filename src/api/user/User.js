@@ -1,23 +1,23 @@
 import request from '../../utils/request'
 export default {
   // 服务列表
-  serviceList(params = {}) {
+  serviceList (params = {}) {
     return request({
       url: '/system/service/list/',
       method: 'get',
       params: params
     })
   },
-    // 手机验证码
-    sendCode(params = {}) {
-      return request({
-        url: '/system/sms_code/',
-        method: 'post',
-        data: params
-      })
-    },
+  // 手机验证码
+  sendCode (params = {}) {
+    return request({
+      url: '/system/sms_code/',
+      method: 'post',
+      data: params
+    })
+  },
   // 登录接口
-  loginByCode(params = {}) {
+  loginByCode (params = {}) {
     return request({
       url: '/user/authorization/',
       method: 'post',
@@ -25,7 +25,7 @@ export default {
     })
   },
   // 获取用户openid
-  openId(params = {}){
+  openId (params = {}) {
     return request({
       url: '/user/wx/user/',
       method: 'post',
@@ -33,7 +33,7 @@ export default {
     })
   },
   // 个人信息
-  information(params = {}) {
+  information (params = {}) {
     return request({
       url: '/user/info/',
       method: 'get',
@@ -41,7 +41,7 @@ export default {
     })
   },
   // 获取用户积分
-  userIntegral(params = {}) {
+  userIntegral (params = {}) {
     return request({
       url: '/user/integral/',
       method: 'get',
@@ -49,7 +49,7 @@ export default {
     })
   },
   // 转出积分
-  turnOut(params = {}) {
+  turnOut (params = {}) {
     return request({
       url: '/user/transfer_out/',
       method: 'post',
@@ -57,7 +57,7 @@ export default {
     })
   },
   // 更换手机号
-  replacePhone(params = {}) {
+  replacePhone (params = {}) {
     return request({
       url: '/user/mobile/modify/',
       method: 'post',

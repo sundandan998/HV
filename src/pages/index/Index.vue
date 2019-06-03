@@ -107,10 +107,10 @@
               this.showModalLogin = false
               this.$store.dispatch('setUserInfo', { data: res.info })
               this.$store.dispatch('setToken', res.token)
-              this.$router.push({
-                name: 'Reservation',
-                params: { list: this.dataList, id: id }
-              })
+              // this.$router.push({
+              //   name: 'Reservation',
+              //   params: { list: this.dataList, id: id }
+              // })
             }
           }).catch(err => {
             console.log(err)

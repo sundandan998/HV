@@ -5,11 +5,11 @@
       <img class="fr" @click="isShowModalHide" src="@/assets/images/cancel.svg" alt>
       <mt-field
         label="手机号"
-        type="tel"
+        type="number"
         v-model="verification.mobile"
         :state="NameStatus"
         @blur.native.capture="sendCode"
-        :attr="{ maxlength: 11 }"
+        :attr="{ oninput: 'if(value.length>11)value=value.slice(0,11)' }"
       ></mt-field>
       <mt-field label="用户名"  v-model="verification.name"></mt-field>
       <mt-field
@@ -40,7 +40,7 @@ export default {
         mobile: '',
         name: '',
         id_card: '',
-        access_token:null
+        access_token: null
       },
       submitBtnDisabled: true,
       NameStatus: '',
@@ -70,21 +70,19 @@ export default {
     handleLogin () {
       this.verification.access_token = sessionStorage.getItem('access_token')
       // console.log(this.verification)
-      this.$store.dispatch('loginByCode', this.verification)
-        .then(res => {
-          if(this.$store.getters.token !== ''){
+      this.$store.dispatch('loginByCode', this.verification).then(res => {
+        if (this.$store.getters.token !== '') {
           this.isShowModalHide()
           this.$store.commit('detail', res.data)
           Toast({
-              message: res.msg
-            })
-          }            
+            message: res.msg
+          })
+        }
+      }).catch(err => {
+        Toast({
+          message: err.msg
         })
-        .catch(err => {
-          Toast({
-              message: err.msg
-            })
-        })
+      })
     },
     // 模态框隐藏
     isShowModalHide () {

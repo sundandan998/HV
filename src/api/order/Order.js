@@ -1,7 +1,7 @@
 import request from '../../utils/request'
 export default {
   // 个人信息
-  information(params = {}) {
+  information (params = {}) {
     return request({
       url: '/user/info/',
       method: 'get',
@@ -9,7 +9,7 @@ export default {
     })
   },
   // 添加订单
-  addOrder(params = {}) {
+  addOrder (params = {}) {
     return request({
       url: '/order/add/',
       method: 'post',
@@ -17,7 +17,7 @@ export default {
     })
   },
   // 获取订单列表
-  orderList(params = {}) {
+  orderList (params = {}) {
     return request({
       url: '/order/list/',
       method: 'get',
@@ -25,15 +25,15 @@ export default {
     })
   },
   // 修改订单状态
-  editOrder(params = {}){
+  editOrder (params = {}) {
     return request({
-      url: "/order/"+params.id+"/status/modify/",
+      url: '/order/' + params.id + '/status/modify/',
       method: 'post',
       data: params
     })
   },
   // 获取订单列表详情
-  orderDetail(params = {}) {
+  orderDetail (params = {}) {
     return request({
       url: '/order/' + params.id + '/detail/',
       method: 'get',

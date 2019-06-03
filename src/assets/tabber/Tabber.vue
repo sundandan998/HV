@@ -45,7 +45,6 @@ export default {
       } else {
         this.$emit('showLogin')
       }
-    
     }
   }
 }

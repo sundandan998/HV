@@ -8,22 +8,22 @@ import router from '@/router/index.js'
 const service = axios.create({
   baseURL: baseURL,
   timeout: 30000,
-  //`transformRequest`选项允许我们在请求发送到服务器之前对请求的数据做出一些改动
-  //该选项只适用于以下请求方式：`put/post/patch`
-  //数组里面的最后一个函数必须返回一个字符串、-一个`ArrayBuffer`或者`Stream`
+  // `transformRequest`选项允许我们在请求发送到服务器之前对请求的数据做出一些改动
+  // 该选项只适用于以下请求方式：`put/post/patch`
+  // 数组里面的最后一个函数必须返回一个字符串、-一个`ArrayBuffer`或者`Stream`
   transformRequest: [
-    function(data) {
+    function (data) {
       return qs.stringify(data)
     }
   ],
-  //`paramsSerializer`是一个可选的函数，起作用是让参数（params）序列化
-  paramsSerializer: function(params) {
+  // `paramsSerializer`是一个可选的函数，起作用是让参数（params）序列化
+  paramsSerializer: function (params) {
     return qs.stringify(params)
   },
-  //`transformResponse`选项允许我们在数据传送到`then/catch`方法之前对数据进行改动
+  // `transformResponse`选项允许我们在数据传送到`then/catch`方法之前对数据进行改动
   // 在此处可以判断data里的status
   transformResponse: [
-    function(data) {
+    function (data) {
       return data
     }
   ],
@@ -78,7 +78,7 @@ service.interceptors.response.use(
         path: '/'
       })
     }
-    message.error(errorJSON.ret_msg)
+    // message.error(errorJSON.ret_msg)
     return Promise.reject(errorJSON)
   }
 )

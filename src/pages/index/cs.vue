@@ -73,12 +73,12 @@ import { mapGetters } from 'vuex'
 // 接口请求
 import api from '@/api/user/User.js'
 export default {
-  data() {
+  data () {
     return {
       clickfalse: false,
       popupVisible: false,
       NameStatus: '',
-      phone: '',
+      // phone: '',
       verifyNum: '',
       btnContent: '发送',
       time: 0,
@@ -90,24 +90,23 @@ export default {
       }
     }
   },
-  created() {
+  created () {
     this.information()
   },
   methods: {
     // 手机号校验
-    sendcode() {
+    sendcode () {
       var reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/
-      //var url="/nptOfficialWebsite/apply/sendSms?mobile="+this.ruleForm.phone;
       if (!reg.test(this.phone)) {
         this.NameStatus = 'error'
       } else {
         this.NameStatus = 'success'
       }
     },
-    modalShow() {
+    modalShow () {
       this.popupVisible = true
     },
-    success() {
+    success () {
       this.popupVisible = false
       // 更换手机号
       api
@@ -122,11 +121,11 @@ export default {
         message: '更换成功'
       })
     },
-    modalHide() {
+    modalHide () {
       this.popupVisible = false
     },
     // 解绑微信弹框
-    remove() {
+    remove () {
       this.$messagebox({
         title: '解绑微信',
         message: '账号已绑定当前微信,是否解绑',
@@ -137,16 +136,16 @@ export default {
     },
     // 验证码
     // 获取验证码
-    sendSmsCode() {
-      var reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/ //手机号正则验证
+    sendSmsCode () {
+      var reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/
       var phone = this.phone
       if (!phone) {
-        //未输入手机号
+        // 未输入手机号
         Toast('请输入手机号码')
         return
       }
       if (!reg.test(phone)) {
-        //手机号不合法
+        // 手机号不合法
         Toast('您输入的手机号码不合法，请重新输入')
       }
       this.time = 60
@@ -159,22 +158,22 @@ export default {
           console.log(response.body)
         })
     },
-    timer() {
+    timer () {
       if (this.time > 0) {
         this.time--
         this.btnContent = this.time + 's后重新获取'
         this.disabled = true
         var timer = setTimeout(this.timer, 1000)
-      } else if (this.time == 0) {
+      } else if (this.time === 0) {
         this.btnContent = '获取验证码'
         clearTimeout(timer)
         this.disabled = false
       }
     },
     // 验证验证码
-    verificationCode() {
-      var phone = this.phone //手机号
-      var verifyNum = this.verifyNum //验证码
+    verificationCode () {
+      var phone = this.phone
+      var verifyNum = this.verifyNum
       var url = 'http://bosstan.asuscomm.com/api/common/verificationCode'
       this.$http
         .post(
@@ -192,7 +191,7 @@ export default {
         })
     },
     // 个人信息
-    information() {
+    information () {
       api
         .information()
         .then(res => {

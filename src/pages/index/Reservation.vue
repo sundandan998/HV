@@ -14,50 +14,62 @@
     </div>
     <!-- </div> -->
     <div class="reservation-btn">
-      <mt-button size="large" @click="success">确认</mt-button>
+      <mt-button size="large" @click="success" :disabled = disabled>确认</mt-button>
     </div>
   </div>
 </template>
 <script>
-  import { Toast } from 'mint-ui'
-  import { mapGetters } from 'vuex'
-  // 接口请求
-  import api from '@/api/order/order.js'
-  export default {
-    data() {
-      return {
-        add: {
-          name: this.$store.getters.userInfo.data.name,
-          mobile: this.$store.getters.userInfo.data.mobile,
-          service_id: this.$route.params.id,
-          appointment_date: '',
-          detail: {}
-        }
+import { Toast } from 'mint-ui'
+import { mapGetters } from 'vuex'
+// 接口请求
+import api from '@/api/order/order.js'
+export default {
+  data() {
+    return {
+      disabled:true,
+      add: {
+        name: this.$store.getters.userInfo.data.name,
+        mobile: this.$store.getters.userInfo.data.mobile,
+        service_id: this.$route.params.id,
+        appointment_date: '',
+        detail: {}
       }
-    },
-    created() {
-      document.title = '预约信息'
-      this.detail = this.$route.params.list[this.$route.params.id - 1]
-      console.log(this.$route.params.id)
-    },
-    methods: {
-      success(id) {
-        api
-          .addOrder(this.add)
-          .then(res => {
-            Toast({
-              message: res.msg
-            })
-          })
-          .catch(err => {
-            Toast({
-              message: err.msg
-            })
-          })
-
+    }
+  },
+  created () {
+    document.title = '预约信息'
+    // this.detail = this.$route.params.list[this.$route.params.id - 1]
+    this.$route.params.list.map(item => {
+      if (item.id === this.$route.params.id) {
+        this.detail = item
+      }
+    })
+  },
+  methods: {
+    success (id) {       
+      api.addOrder(this.add).then(res => {              
+        Toast({
+          message: res.msg
+        })
+      }).catch(err => {
+       console.log(err)
+      })
+    }
+  },
+  watch:{
+    add:{
+      immediate: true,
+      deep: true,
+      handler (val) {
+        if (val.appointment_date != ''){
+          this.disabled=false
+        }else{
+          this.disabled=true
+        }
       }
     }
   }
+}
 </script>
 <style lang="scss">
   @import '../../assets/scss/Global.scss';
