@@ -10,7 +10,7 @@
         <mt-field label="手机号" type="number" :attr="{ oninput: 'if(value.length>11)value=value.slice(0,11)' }" v-model="turnIntegral.mobile"></mt-field>
       </div>
       <div>
-        <mt-field label="积分数量" type="tel" v-model="turnIntegral.amount"></mt-field>
+        <mt-field label="积分数量" type="number" v-model="turnIntegral.amount"></mt-field>
       </div>
     </div>
     <div class="transfer-out-button">
@@ -43,6 +43,9 @@ export default {
         Toast({
           message: res.msg
         })
+        this.$router.push({
+          name:'Mine'
+        })
       }).catch(err => {
         Toast({
           message: err.msg
@@ -50,15 +53,15 @@ export default {
       })
     }
   },
-  watch:{
-    turnIntegral:{
+  watch: {
+    turnIntegral: {
       immediate: true,
       deep: true,
       handler (val) {
-        if (val.recipient != '' && val.mobile != '' && val.amount != '' ) {
-          this.disabled=false
-        }else{
-          this.disabled=true
+        if (val.recipient !== '' && val.mobile !== '' && val.amount !== '') {
+          this.disabled = false
+        } else {
+          this.disabled = true
         }
       }
     }

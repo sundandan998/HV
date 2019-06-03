@@ -2,7 +2,7 @@
   <div class="my-appointment">
     <div class="my-appointment-body">
       <!-- <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="100"> -->
-        <div v-for="item in orderData" class="order-list" >
+        <div v-for="(item,index) in orderData" class="order-list" :key= index>
           <router-link :to="/detail/ + item.id">
             <mt-cell :title="item.appointment_date" readonly="readonly"></mt-cell>
             <mt-cell :title="item.service_title" readonly="readonly">
@@ -67,7 +67,7 @@ export default {
       if (item.status === 300 || item.status === 400 || item.status === 500) {
         this.$router.push({
           name: 'Reservation',
-          params: { list: [{ integral: item.price, title: item.service_title }], id: 1 }
+          params: { list: [{ integral: item.price, title: item.service_title }]}
         })
         this.messagebox.closeOnClickModal = true
       }

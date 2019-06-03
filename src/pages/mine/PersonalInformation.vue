@@ -25,7 +25,7 @@
         :attr="{ oninput: 'if(value.length>11)value=value.slice(0,11)' }"
         ></mt-field>
         <mt-field label="验证码" v-model="phone.code" type = "number">
-          <input type="button" v-on:click="sendSmsCode" v-model="btnContent" v-bind="{ disabled: disabled }" />
+          <input class = "fr" v-on:click="sendSmsCode" v-model="btnContent" v-bind="{ disabled: disabled }" />
         </mt-field>
         <mt-button size="large" @click.native="success" :disabled="submitBtnDisabled">确定</mt-button>
       </mt-popup>

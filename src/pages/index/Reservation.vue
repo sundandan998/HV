@@ -6,13 +6,21 @@
       <mt-cell title="联系电话" :value="add.mobile" v-model="add.mobile"></mt-cell>
     </div>
     <div class="reservation-body-price">
-    <mt-cell title="服务名称" :value="detail.title"></mt-cell>
-    <mt-cell title="价格" :value="detail.integral"></mt-cell>
-  </div>
-    <div class="reservation-body-time">
-      <mt-field label="预约时间" placeholder="" type="date" v-model="add.appointment_date"></mt-field>
+      <mt-cell title="服务名称" :value="detail.title"></mt-cell>
+      <mt-cell title="价格" :value="detail.integral"></mt-cell>
     </div>
-    <!-- </div> -->
+    <div class="reservation-body-time">
+      <mt-field label="预约时间" type="date" v-model="add.appointment_date" >
+         <!-- <mt-datetime-picker v-model="date.pickerVisible"
+      type="date"
+      year-format="{value} 年"
+      month-format="{value} 月"
+      date-format="{value} 日"
+      @confirm="handleConfirm"
+      :startDate="date.startDate">
+        </mt-datetime-picker> -->
+      </mt-field>
+    </div>
     <div class="reservation-btn">
       <mt-button size="large" @click="success" :disabled = disabled>确认</mt-button>
     </div>
@@ -20,13 +28,17 @@
 </template>
 <script>
 import { Toast } from 'mint-ui'
-import { mapGetters } from 'vuex'
 // 接口请求
 import api from '@/api/order/order.js'
 export default {
-  data() {
+  data () {
     return {
-      disabled:true,
+      disabled: true,
+      date: {
+        pickerVisible: '',
+        startDate: new Date(),
+        time: ''
+      },
       add: {
         name: this.$store.getters.userInfo.data.name,
         mobile: this.$store.getters.userInfo.data.mobile,
@@ -46,25 +58,32 @@ export default {
     })
   },
   methods: {
-    success (id) {       
-      api.addOrder(this.add).then(res => {              
+    // 日期
+    openPicker () {
+      this.$refs.picker.open()
+    },
+    handleConfirm (val) {
+      this.time = val
+    },
+    success (id) {
+      api.addOrder(this.add).then(res => {
         Toast({
           message: res.msg
         })
       }).catch(err => {
-       console.log(err)
+        console.log(err)
       })
     }
   },
-  watch:{
-    add:{
+  watch: {
+    add: {
       immediate: true,
       deep: true,
       handler (val) {
-        if (val.appointment_date != ''){
-          this.disabled=false
-        }else{
-          this.disabled=true
+        if (val.appointment_date !== '') {
+          this.disabled = false
+        } else {
+          this.disabled = true
         }
       }
     }

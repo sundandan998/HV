@@ -24,7 +24,10 @@ li{
 .mint-cell {
   margin-bottom: 10px;
 }
-
+input{
+  border:none;
+  width: 30%;
+}
 .mint-button--default {
   // background-color: #09bb07 !important;
   color: #fff !important;
@@ -111,10 +114,10 @@ span.price {
 // 预约信息
 .reservation-btn {
   .mint-button--large {
+    position: fixed;
     display: block;
     width: 96%;
-    bottom: 30px;
-    position: fixed;
+    bottom: 0px;
     margin-left: 9px;
     background-color: #09bb07 !important;
 }
@@ -146,8 +149,8 @@ span.price {
 }
 .transfer-out-button {
   button {
-    position: fixed;
-    bottom: 30px;
+   position: fixed;
+    bottom: 0px;
     width: 96%;
    margin-left: 9px;
     background-color: #09bb07 !important;
