@@ -8,6 +8,8 @@
       <div class="transfer-out-body-field">
         <mt-field label="接收人" v-model="turnIntegral.recipient"></mt-field>
         <mt-field label="手机号" type="tel" v-model="turnIntegral.mobile"></mt-field>
+      </div>
+      <div>
         <mt-field label="积分数量" type="tel" v-model="turnIntegral.amount"></mt-field>
       </div>
     </div>
@@ -31,7 +33,7 @@
         }
       }
     },
-    created(){
+    created() {
       document.title = '转出'
     },
     methods: {

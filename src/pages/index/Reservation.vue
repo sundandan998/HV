@@ -38,10 +38,10 @@
     created() {
       document.title = '预约信息'
       this.detail = this.$route.params.list[this.$route.params.id - 1]
-      // console.log(this.detail.id)
+      console.log(this.$route.params.id)
     },
     methods: {
-      success() {
+      success(id) {
         api
           .addOrder(this.add)
           .then(res => {

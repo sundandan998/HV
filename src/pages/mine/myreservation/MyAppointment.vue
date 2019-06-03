@@ -1,21 +1,22 @@
 <template>
   <div class="my-appointment">
     <div class="my-appointment-body">
-      <div v-for="(item, index) in orderData" class="order-list">
-        <router-link :to="/detail/ + item.id">
-          <mt-cell :title="item.appointment_date" readonly="readonly"></mt-cell>
-          <mt-cell :title="item.service_title" readonly="readonly">
-            <span class="integral">{{ item.price }}</span>
-            <!-- {{item.status}} -->
-            <span>
-              {{item.status == 0 ? '已预约' :item.status == 100 ?'已受理':item.status == 200 ?'撤销中':item.status == 300 ?'已撤销':item.status ==
-              400 ?'已取消':'已完成' }}
-            </span>
-          </mt-cell>
-        </router-link>
-        <mt-button size="small" @click="edit(item)"  class="fr" :style="{background:item.status==0||item.status==100||item.status==200?'#E64340':'#09bb07'}">
-          {{ item.status == 0 ? '取消' :item.status == 100 ?'申请撤销':item.status == 200 ?'取消撤销':'再次预约' }}</mt-button>
-      </div>
+      <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading"infinite-scroll-distance="10">
+        <div v-for="(item, index) in orderData" class="order-list">
+          <router-link :to="/detail/ + item.id">
+            <mt-cell :title="item.appointment_date" readonly="readonly"></mt-cell>
+            <mt-cell :title="item.service_title" readonly="readonly">
+              <span class="integral">{{ item.price }}</span>
+              <span>
+                {{item.status == 0 ? '已预约' :item.status == 100 ?'已受理':item.status == 200 ?'撤销中':item.status == 300 ?'已撤销':item.status ==
+                400 ?'已取消':'已完成' }}
+              </span>
+            </mt-cell>
+          </router-link>
+          <mt-button size="small" @click="edit(item)" class="fr" :style="{background:item.status==0||item.status==100||item.status==200?'#E64340':'#09bb07'}">
+            {{ item.status == 0 ? '取消' :item.status == 100 ?'申请撤销':item.status == 200 ?'取消撤销':'再次预约' }}</mt-button>
+        </div>
+      </ul>
     </div>
   </div>
 </template>
@@ -28,10 +29,10 @@
     data() {
       return {
         orderData: '',
-        closeOnClickModal:false,
+        closeOnClickModal: false,
         list: {
           page: 1,
-          page_size: 20,
+          page_size: 10,
           ordering: ''
         },
         action: {
@@ -81,20 +82,23 @@
           if (action == 'confirm') {
             debugger
             api.editOrder({ id: item.id, action: actionStatus }).then(res => {
-              // if (item.status == 300 || item.status == 400 || item.status == 500) {
-              //   console.log('131')
-              //   this.$router.push({
-              //     name: 'Reservation',
-              //     params: { list: [{ integral: item.price, title: item.service_title }], id: 1 }
-              //   })
-              //   this.messagebox.close()
-              // }
-              location.reload() 
+              location.reload()
             }).catch(err => {
               console.log(err)
             })
           }
         })
+      },
+      // 下拉刷新
+      loadMore() {
+        this.loading = true
+        setTimeout(() => {
+          let last = this.list[this.list.length - 1];
+          for (let i = 1; i <= 10; i++) {
+            this.list.push(last + i);
+          }
+          this.loading = false;
+        }, 2500)
       }
     }
   }

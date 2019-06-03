@@ -17,10 +17,9 @@
       <mt-popup v-model="popupVisible" :closeOnClickModal="clickfalse">
         <span>更换手机号</span>
         <img class="fr" @click="modalHide" src="../../assets/images/cancel.svg" alt="" />
-        <mt-field label="手机号" @blur.native.capture="sendcode" placeholder="请输入手机号" type="tel" @click="sendcode" v-model="phone.mobile"
-          :state="NameStatus" :attr="{ maxlength: 11 }"></mt-field>
+        <mt-field label="手机号" @blur.native.capture="sendcode" placeholder="请输入手机号" type="number"  v-model="phone.mobile"
+          :state="NameStatus" :attr="{maxlength: 11 }"></mt-field>
         <mt-field label="验证码" v-model="phone.verifyNum">
-          <!-- <mt-button size="small" class="send-code-btn" v-on:click="sendSmsCode" v-model="btnContent" disabled="disabled">发送</mt-button> -->
           <input type="button" v-on:click="sendSmsCode" v-model="btnContent" v-bind="{ disabled: disabled }" />
         </mt-field>
         <mt-button size="large" @click.native="success" :disabled="submitBtnDisabled">确定</mt-button>
@@ -45,9 +44,6 @@
         disabled: false,
         infor: '',
         submitBtnDisabled: true,
-        // code: {
-        //   mobile: '',
-        // },
         phone: {
           mobile: '',
           verifyNum: ''
@@ -113,7 +109,7 @@
           Toast({
             message: '手机号不能为空',
             position: 'top',
-            className :'zZindex'
+            className: 'zZindex'
           })
           return
         }
@@ -122,7 +118,7 @@
           Toast({
             message: '手机号格式错误',
             position: 'top',
-            className :'zZindex'
+            className: 'zZindex'
           })
           return
         }
@@ -138,14 +134,6 @@
         }).catch(err => {
 
         })
-
-        // 获取验证码请求
-        // var url = 'http://bosstan.asuscomm.com/api/common/sendSmsCode'
-        // this.$http
-        //   .post(url, { username: phone }, { emulateJSON: true })
-        //   .then(response => {
-        //     console.log(response.body)
-        //   })
       },
       timer() {
         if (this.time > 0) {
@@ -159,26 +147,6 @@
           this.disabled = false
         }
       },
-      // // 验证验证码
-      // verificationCode() {
-      //   var phone = this.phone //手机号
-      //   var verifyNum = this.verifyNum //验证码
-      //   var url = 'http://bosstan.asuscomm.com/api/common/verificationCode'
-      //   this.$http
-      //     .post(
-      //       url,
-      //       {
-      //         username: phone,
-      //         code: verifyNum
-      //       },
-      //       {
-      //         emulateJSON: true
-      //       }
-      //     )
-      //     .then(response => {
-      //       console.log(response.body)
-      //     })
-      // },
       // 个人信息
       information() {
         api
