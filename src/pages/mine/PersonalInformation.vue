@@ -108,10 +108,12 @@
         var reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/ //手机号正则验证
         var phone = this.phone.mobile
         if (phone == '') {
+          // console.log('123')
           //未输入手机号
           Toast({
-            message: '手机号格式错误',
+            message: '手机号不能为空',
             position: 'top',
+            className :'zZindex'
           })
           return
         }
@@ -120,6 +122,7 @@
           Toast({
             message: '手机号格式错误',
             position: 'top',
+            className :'zZindex'
           })
           return
         }

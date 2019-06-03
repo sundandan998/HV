@@ -18,10 +18,6 @@ a {
   margin-bottom: 10px;
 }
 
-.health-score-btn button{
-background-color: #09bb07 !important;
- width: 30%;
-}
 .mint-button--default {
   // background-color: #09bb07 !important;
   color: #fff !important;
@@ -38,6 +34,9 @@ background-color: #09bb07 !important;
 }
 .mint-cell-value span{
   color: #333;
+}
+.zZindex{
+  z-index: 3000 !important;
 }
 // 首页
 .index-body {
@@ -75,7 +74,12 @@ span.price {
     margin-top: 10px;
   }
 }
+.health-score-btn button{
+  background-color: #09bb07 !important;
+   width: 35%;
+  }
 .health-score-bot {
+  height: 130px;
   background-color: #fff;
   padding-bottom: 10px;
   margin-top: 10px;
@@ -85,6 +89,7 @@ span.price {
 }
 .health-score-btn {
   margin-left: 10px;
+  margin-top: 20px;
   .turn-out {
     margin-right: 10px;
     background-color: #fff !important;
@@ -106,6 +111,18 @@ span.price {
     margin-left: 9px;
     background-color: #09bb07 !important;
 }
+}
+.reservation-body {
+  margin-bottom: 10px;
+  .mint-cell {
+  margin-bottom: 1px;
+  }
+}
+.reservation-body-price{
+  margin-bottom: 10px;
+  .mint-cell {
+  margin-bottom: 1px;
+  }
 }
 // 转出
 .transfer-out-body-cell {
@@ -130,11 +147,8 @@ span.price {
   }
 }
 .information-body-bot {
-  margin-top: 15px;
+  margin-top: 20px;
 }
-// .modal .send-code-btn{
-//   width: 100% !important;
-// }
 // 我的预约
 .my-appointment-body {
   height: 100px;
@@ -191,10 +205,17 @@ span.integral {
 // 预约详情
 .my-appointment-body-top {
   margin-top: 15px;
+  margin-bottom: 8px;
   a {
     width: 100%;
   }
   .mint-cell {
-    margin-bottom: 0;
+    margin-bottom: 1px;
+  }
+}
+.my-appointment-body-phone{
+  margin-bottom: 15px;
+  .mint-cell {
+    margin-bottom: 1px;
   }
 }
