@@ -1,8 +1,10 @@
 <template>
   <div class="my-appointment">
     <div class="my-appointment-body">
+        <p v-if="show">暂无预约数据</p>
       <!-- <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="100"> -->
         <div v-for="(item,index) in orderData" class="order-list" :key= index>
+        
           <router-link :to="/detail/ + item.id">
             <mt-cell :title="item.appointment_date" readonly="readonly"></mt-cell>
             <mt-cell :title="item.service_title" readonly="readonly">
@@ -28,6 +30,7 @@ const listP = []
 export default {
   data () {
     return {
+      show: false,
       orderData: '',
       closeOnClickModal: false,
       list: {
@@ -50,11 +53,12 @@ export default {
   methods: {
     // 定单列表
     orderList () {
-      api.orderList(this.list)
-        .then(res => {
+      api.orderList(this.list).then(res => {
           this.orderData = res.data
           listP.push(this.orderData)
-          // console.log(this.orderData[0].status)
+          if (this.orderData.length === 0){
+            this.show = true
+          }
         })
         .catch(err => {
           console.log(err)
@@ -90,16 +94,16 @@ export default {
       })
     },
     // 下拉刷新
-    loadMore () {
-      this.loading = true
-      setTimeout(() => {
-        let last = this.list[this.list.length - 1]
-        for (let i = 1; i <= 10; i++) {
-          this.list.push(last + i)
-        }
-        this.loading = false
-      }, 2500)
-    }
+    // loadMore () {
+    //   this.loading = true
+    //   setTimeout(() => {
+    //     let last = this.list[this.list.length - 1]
+    //     for (let i = 1; i <= 10; i++) {
+    //       this.list.push(last + i)
+    //     }
+    //     this.loading = false
+    //   }, 2500)
+    // }
   }
 }
 </script>
