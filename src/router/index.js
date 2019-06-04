@@ -38,19 +38,31 @@ export default new Router({
     {
       path: '/myappointment',
       name: 'Myappointment',
-      component: () => import('@/pages/mine/myreservation/MyAppointment')
+      component: () => import('@/pages/mine/my-reservation/MyAppointment')
     },
     // 预约详情
     {
       path: '/detail/:id',
       name: 'MyAppointmentDetail',
-      component: () => import('@/pages/mine/myreservation/MyAppointmentDetail')
+      component: () => import('@/pages/mine/my-reservation/MyAppointmentDetail')
     },
     // 预约信息
     {
       path: '/reservation',
       name: 'Reservation',
       component: () => import('@/pages/index/Reservation')
-    }
+    },
+    // 明细
+    {
+      path: '/details',
+      name: 'Details',
+      component: () => import('@/pages/mine/transfer-details/TransferDetails')
+    },
+    // 明细详情
+    {
+      path: '/detail',
+      name: 'Detail',
+      component: () => import('@/pages/mine/transfer-details/TransferDetail')
+    },
   ]
 })

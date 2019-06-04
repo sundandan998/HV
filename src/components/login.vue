@@ -1,6 +1,6 @@
 <template>
   <div class="modal">
-    <mt-popup v-model="showLogin" >
+    <mt-popup v-model="showLogin" :closeOnClickModal='false'>
       <span>HV认证</span>
       <img class="fr" @click="isShowModalHide" src="@/assets/images/cancel.svg" alt>
       <mt-field
@@ -8,13 +8,15 @@
         type="number"
         v-model="verification.mobile"
         :state="NameStatus"
+        placeholder="请输入手机号"
         @blur.native.capture="sendCode"
         :attr="{ oninput: 'if(value.length>11)value=value.slice(0,11)' }"
       ></mt-field>
-      <mt-field label="用户名"  v-model="verification.name"></mt-field>
+      <mt-field label="用户名"  v-model="verification.name" placeholder="请输入用户名"></mt-field>
       <mt-field
         label="身份证号码"
         v-model="verification.id_card"
+        placeholder="请输入身份证号码"
         :state="idStatus"
         :attr="{ maxlength: 18 }"
         @blur.native.capture="idCard"

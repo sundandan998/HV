@@ -63,5 +63,13 @@ export default {
       method: 'post',
       data: params
     })
+  },
+  // 明细
+  details(params = {}) {
+    return request({
+      url: '/user/flow/list/',
+      method: 'get',
+      data: params
+    })
   }
 }

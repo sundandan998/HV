@@ -45,8 +45,22 @@ input{
 .mint-cell-value span{
   color: #333;
 }
+// 修改手机号页面的toast显示在遮罩层上方
 .zZindex{
   z-index: 3000 !important;
+}
+// 去掉预约时间的灰色背景
+.mint-field-core{
+  background-color: #fff;
+}
+input.mint-field-core {
+  width: 110px;
+}
+.mint-field-other {
+  top: 20px;
+  right: 20px;
+  position: absolute;
+  /* z-index: 11111111111; */
 }
 // 首页
 .index-body {
@@ -93,18 +107,40 @@ span.price {
   background-color: #fff;
   padding-bottom: 10px;
   margin-top: 10px;
+  text-align: center;
+  width: 95%;
+  margin: 10px auto;
+  border-radius: 5px;
+  span{
+    display: inline-block;
+    margin-top: 20px;
+    font-size:12px;
+  }
+  p{
+    margin-top: 10px;
+    font-size:22px;
+  }
   a {
     margin-bottom: -10px;
   }
+  b{
+    font-weight: 400;
+    font-size:14px;
+    margin-right:20px;
+    margin-top: 10px;
+
+  }
 }
+
 .health-score-btn {
   margin-left: 10px;
   margin-top: 20px;
   .turn-out {
-    margin-right: 10px;
-    background-color: #fff !important;
-    color: #09bb07 !important;
-    border: 1px solid #09bb07 !important;
+    // margin-right: 120px;
+    background-color: #09bb07;
+    // background-color: #fff !important;
+    // color: #09bb07 !important;
+    // border: 1px solid #09bb07 !important;
   }
 }
 
@@ -113,14 +149,20 @@ span.price {
 }
 // 预约信息
 .reservation-btn {
-  .mint-button--large {
-    position: fixed;
-    display: block;
     width: 96%;
-    bottom: 0px;
+    position: fixed;
+    bottom: 0;
     margin-left: 9px;
+  .sure {  
     background-color: #09bb07 !important;
-}
+  }
+  .cancel{
+    margin-top: 10px;
+    color:#fff;
+    background-color: #fff;
+    color: #09bb07 !important;
+    border: 1px solid #09bb07 !important;
+  }
 }
 .reservation-body {
   margin-bottom: 10px;
@@ -148,13 +190,20 @@ span.price {
   }
 }
 .transfer-out-button {
-  button {
-   position: fixed;
-    bottom: 0px;
-    width: 96%;
-   margin-left: 9px;
-    background-color: #09bb07 !important;
-  }
+  width: 96%;
+  position: fixed;
+  bottom: 0;
+  margin-left: 9px;
+.sure {  
+  background-color: #09bb07 !important;
+}
+.cancel{
+  margin-top: 10px;
+  color:#fff;
+  background-color: #fff;
+  color: #09bb07 !important;
+  border: 1px solid #09bb07 !important;
+}
 }
 // 个人信息
 .information-body {
@@ -188,6 +237,8 @@ span.price {
   p {
     text-align: center;
     margin: 200px auto;
+    font-size: 20px;
+    color: #999;
   }
 }
 span.integral {
@@ -239,5 +290,33 @@ ul{
   margin-bottom: 15px;
   .mint-cell {
     margin-bottom: 1px;
+  }
+}
+// 明细  
+.details-list{
+  .mint-cell{
+    margin-bottom: 1px;
+    color:#333;
+  }
+}
+// 明细详情
+.details-list-detail-title {
+  height: 120px;
+  background-color: #fff;
+  margin-bottom: 3px;
+  text-align: center;
+  span{
+    margin-top: 30px;
+    margin:30px 0 10px 0;
+    display: inline-block;
+    font-size: 14px;
+  }
+  p{
+    font-size: 22px;
+  }
+}
+.details-list-detail-information{
+  .mint-cell{
+    margin-bottom: -1px;
   }
 }

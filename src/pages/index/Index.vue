@@ -14,8 +14,8 @@
         <span class="price">价格</span>
       </mt-cell>
       <div v-for="(item, index) in dataList" :key="index">
-        <mt-cell :title="item.title">
-          <span class="integral">{{ item.integral }}</span>
+        <mt-cell :title="item.title" @click.native="judge(item.id)">
+          <span class="integral">{{parseInt(item.integral)}}</span>
           <mt-button size="small" @click.native="judge(item.id)" class="index-judge">预约</mt-button>
         </mt-cell>
       </div>
@@ -33,6 +33,7 @@ import Tabber from '../../assets/tabber/Tabber.vue'
 import Login from '@/components/login.vue'
 // 接口请求
 import api from '@/api/user/User.js'
+import $ from 'jquery'
 export default {
   data () {
     return {
@@ -46,7 +47,7 @@ export default {
       // 首页列表
       list: {
         page: 1,
-        page_size: 6
+        page_size: 100
       },
       // openId参数
       code: {
@@ -64,7 +65,7 @@ export default {
     Login
   },
   methods: {
-    judge (id) {
+    judge (id) {  
       if (this.$store.getters.token !== '') {
         this.showModalLogin = false
         this.$router.push({
@@ -113,6 +114,8 @@ export default {
     serverList () {
       api.serviceList(this.list).then(res => {
         this.dataList = res.data
+        // console.log(this.dataList[0].integral)
+       parseInt(this.dataList[0].integral)
         this.$store.commit('detail', res.data)
       }).catch(err => {
         console.log(err)
