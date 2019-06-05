@@ -17,9 +17,9 @@
       <mt-popup v-model="popupVisible" :closeOnClickModal="clickfalse">
         <span>更换手机号</span>
         <img class="fr" @click="modalHide" src="../../assets/images/cancel.svg" alt="" />
-        <mt-field label="手机号" placeholder="请输入手机号" type="number" v-model="phone.mobile" :state="NameStatus" :attr="{ oninput: 'if(value.length>11)value=value.slice(0,11)' }"></mt-field>
-        <mt-field label="验证码" v-model="phone.code"placeholder="请输入验证码"  type="number">
-          <input class="fr" v-on:click="sendSmsCode" v-model="btnContent" v-bind="{ disabled: disabled }" />
+        <mt-field label="手机号" placeholder="请输入手机号" type="number" v-model="phone.mobile" :state="NameStatus" :attr="{ oninput: 'if(value.length>11)value=value.slice(0,11)'}"></mt-field>
+        <mt-field label="验证码" v-model="phone.code"placeholder="请输入验证码" :attr="{ oninput: 'if(value.length>6)value=value.slice(0,6)'}" type="number">
+          <input class="fr" v-on:click="sendSmsCode" v-model="btnContent" />
         </mt-field>
         <mt-button size="large" @click.native="success" :disabled="submitBtnDisabled">确定</mt-button>
       </mt-popup>
@@ -40,7 +40,6 @@
         time: 0,
         // phone: '',
         btnContent: '发送',
-        disabled: false,
         infor: '',
         submitBtnDisabled: true,
         phone: {
@@ -66,19 +65,17 @@
       modalShow() {
         this.popupVisible = true
         this.phone.mobile = ''
+        this.phone.code = ''
       },
       success() {
         debugger
         this.popupVisible = false
         // 更换手机号
         api.replacePhone(this.phone).then(res => {
-          Toast({
+            Toast({
             message: res.msg
-          })
-        }).catch(err => {
-          Toast({
-            message: err.msg
-          })
+          })   
+        }).catch(err => {        
         })
       },
       modalHide() {
@@ -140,12 +137,10 @@
         if (this.time > 0) {
           this.time--
           this.btnContent = this.time + 's'
-          this.disabled = true
           var timer = setTimeout(this.timer, 1000)
         } else if (this.time === 0) {
           this.btnContent = '发送'
           clearTimeout(timer)
-          this.disabled = false
         }
       },
       // 个人信息

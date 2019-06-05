@@ -2,12 +2,6 @@
   <div class="home">
     <!-- 中间部分 -->
     <div class="home-body">
-      <!--<div class="health-score" v-if="show">
-        <span>健康积分</span>
-        <p>20000</p>
-        <mt-button size="normal" @click="block">领取</mt-button>
-        <a href="">数量有误？不领取</a>
-      </div> -->
       <div class="health-score-bot">
         <!-- <mt-cell title="HV(健康积分)" :value="'可用:'+integral.available"></mt-cell>
         <mt-cell :title="integral.total" :value="'冻结:'+integral.freeze"></mt-cell>
@@ -17,10 +11,12 @@
             <mt-button size="small" class="fr turn-out">转出</mt-button>
           </router-link>
         </div> -->
-        <router-link to="/details">
-          <b class="fr mine-detail">明细</b>
-        </router-link>
-        <span>可用HV(健康积分)</span>       
+        <div class="health-score-details">
+          <router-link to="/details">
+            <b class="fr mine-detail">积分明细</b>
+          </router-link>
+        </div>
+        <span>可用HV(健康积分)</span>
         <p>{{parseInt(integral.available)}}</p>
         <div class="health-score-btn">
           <router-link to="out">

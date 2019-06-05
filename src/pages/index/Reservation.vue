@@ -68,6 +68,7 @@
           confirmButtonText: '是',
           showCancelButton: true
         }).then(action => {
+          if(action ==='confirm'){
           api.addOrder(this.add).then(res => {
             Toast({
               message: res.msg
@@ -82,7 +83,9 @@
             })
             // this.$Indicator.close()
           })
+        }
         })
+        
       },
       // 返回上一页
       rowData() {

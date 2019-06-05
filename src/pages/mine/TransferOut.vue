@@ -50,12 +50,13 @@
         // })
         this.$messagebox({
           title: '转出',
-          message: '将向xx实时转入xx积分，无法退回，确定转出？',
+          message: `将向${this.turnIntegral.recipient}实时转账${this.turnIntegral.amount},成功后无法退回,<p>确定转出？</p>`,
           cancelButtonText: '否',
           confirmButtonText: '是',
           showCancelButton: true
         }).then(action => {
-          api.turnOut(this.turnIntegral).then(res => {
+          if(action==='confirm'){
+            api.turnOut(this.turnIntegral).then(res => {              
             Toast({
               message: res.msg
             })
@@ -69,6 +70,7 @@
             })
             // this.$Indicator.close()
           })
+          }         
         })
       },
       // 用户名校验

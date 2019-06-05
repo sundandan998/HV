@@ -2,7 +2,7 @@
   <div class="details-list-detail">
     <div class="details-list-detail-title">
       <span>{{flowData.transaction_type == 0 ? '转入' :flowData.transaction_type == 100 ? '转出' :flowData.transaction_type == 200
-        ? '赠送' :flowData.transaction_type == 300 ? '消费':'退款'}}
+        ? '赠送' :flowData.transaction_type == 300 ? '消费':'退回'}}
       </span>
       <p>{{flowData.payment_type===1?'+'+flowData.amount :'-'+flowData.amount}}</p>
     </div>
@@ -16,7 +16,7 @@
       <mt-cell title="类型" :value="flowData.transaction_type == 0 ? '转入'
       :flowData.transaction_type == 100 ? '转出'
       :flowData.transaction_type == 200 ? '赠送' 
-      :flowData.transaction_type == 300 ? '消费':'退款'">
+      :flowData.transaction_type == 300 ? '消费':'退回'">
       </mt-cell>
     </div>
   </div>

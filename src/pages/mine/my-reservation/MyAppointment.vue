@@ -9,12 +9,13 @@
             <mt-cell :title="item.service_title" readonly="readonly">
               <span class="integral">{{parseInt(item.price)}}</span>
               <span id="cancelBtn">
-                {{item.status == 0 ? '待受理' :item.status == 100 ?'已受理':item.status == 200 ?'撤销中':item.status == 300 ?'已撤销':item.status ==
-                400 ?'已取消':'已完成' }}
+                {{item.status== 400?'已取消':'待受理'}}
+                <!-- {{item.status == 0 ? '待受理' :item.status == 100 ?'已受理':item.status == 200 ?'撤销中':item.status == 300 ?'已撤销':item.status ==
+                400 ?'已取消':'已完成' }} -->
               </span>
             </mt-cell>
           </router-link>
-          <mt-button  id="editBtn" v-if = "item.status == 0" size="small" @click="edit(item)" class="fr" :style="{background:item.status==0||item.status==100||item.status==200?'#E64340':'#09bb07'}">
+          <mt-button v-if = "item.status == 0"  size="small" @click="edit(item)" class="fr" :style="{background:item.status==0||item.status==100||item.status==200?'#E64340':'#09bb07'}">
               取消
           </mt-button>
         </div>
@@ -56,6 +57,7 @@ export default {
     orderList () {
       api.orderList(this.list).then(res => {
           this.orderData = res.data
+          // console.log(this.orderData[0])
           listP.push(this.orderData)
           if (this.orderData.length === 0){
             this.show = true
@@ -96,16 +98,12 @@ export default {
     //   })
     // },
     edit(item){
+      debugger
       let actionStatus = item.status === 0 ? 0 : item.status === 100 ? 1 : item.status === 200 ? 2 : 3
       api.editOrder({ id: item.id,action:actionStatus}).then(res=>{
-        // this.editStatus = res.data
-        // debugger
-        if(res.code === 0){       
-          document.getElementById("editBtn").style.display="none"
-          document.getElementById("cancelBtn").innerHTML="已取消"
-        }      
+        item.status=400   
       }).catch(err=>{
-        console.log(err)
+        
       })
     }
     // 下拉刷新
