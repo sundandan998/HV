@@ -17,10 +17,10 @@
             <mt-button size="small" class="fr turn-out">转出</mt-button>
           </router-link>
         </div> -->
-        <span>可用HV(健康积分)</span> 
         <router-link to="/details">
-        <b class="fr mine-detail">明细</b>
-      </router-link>
+          <b class="fr mine-detail">明细</b>
+        </router-link>
+        <span>可用HV(健康积分)</span>       
         <p>{{parseInt(integral.available)}}</p>
         <div class="health-score-btn">
           <router-link to="out">

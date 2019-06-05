@@ -8,7 +8,8 @@
     <div v-for="(item, index) in detailsList" :key="index">
       <router-link :to="/flow/+ item.id">
         <mt-cell :title="item.transaction_type == 0 ? '转入' :item.transaction_type == 100 ? '转出'
-      :item.transaction_type == 200 ? '赠送' :item.transaction_type == 300 ? '消费':'退款'" :value="item.amount" :label="item.transaction_time"></mt-cell>
+      :item.transaction_type == 200 ? '赠送' :item.transaction_type == 300 ? '消费':'退款'" 
+      :value="item.payment_type===1?'+'+item.amount :'-'+item.amount" :label="item.transaction_time"></mt-cell>
       </router-link>
     </div>
   </div>
@@ -31,7 +32,9 @@
       // 明细
       details() {
         api.details().then(res => {
+          // debugger
           this.detailsList = res.data
+
           if (this.detailsList.length === 0) {
             this.show = true
           }
