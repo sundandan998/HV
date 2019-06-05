@@ -71,7 +71,7 @@
       },
       // 用户名
       userName () {
-        var reg = /^[a-zA-Z0-9]{2,16}$/
+        var reg = /^[a-zA-Z0-9\u4E00-\u9FA5]{1,16}$/
         if (!reg.test(this.verification.name)) {
           this.NameStatus = 'error'
           this.showHeader = true
@@ -128,7 +128,7 @@
         immediate: true,
         deep: true,
         handler (val) {
-          if (val.mobile !== '' && val.name !== '' && val.id_card !== '') {
+          if (/^((13|14|15|17|18)[0-9]{1}\d{8})$/.test(val.mobile) && /^[a-zA-Z0-9\u4E00-\u9FA5]{1,16}$/.test(val.name) && /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(val.id_card)) {
             this.submitBtnDisabled = false
           } else {
             this.submitBtnDisabled = true
@@ -159,4 +159,4 @@
       display: block;
       margin: 20px 0 18px 0;
   }
-  </style>
+  </style>  

@@ -19,7 +19,7 @@
         </div> -->
         <span>可用HV(健康积分)</span> 
         <router-link to="/details">
-        <!-- <b class="fr mine-detail">明细</b> -->
+        <b class="fr mine-detail">明细</b>
       </router-link>
         <p>{{parseInt(integral.available)}}</p>
         <div class="health-score-btn">

@@ -6,8 +6,9 @@
         <mt-cell :title="this.detail.total" :value="'冻结:' + this.detail.freeze"></mt-cell>
       </div>
       <div class="transfer-out-body-field">
-        <mt-field label="接收人" v-model="turnIntegral.recipient" placeholder="请输入接收人"></mt-field>
-        <mt-field label="手机号" type="number" placeholder="请输入手机号" :attr="{ oninput: 'if(value.length>11)value=value.slice(0,11)' }" v-model="turnIntegral.mobile"></mt-field>
+        <mt-field label="接收人"  @blur.native.capture="userName" :state="NameStatus" v-model="turnIntegral.recipient" placeholder="请输入接收人"></mt-field>
+        <mt-field label="手机号" type="number" placeholder="请输入手机号" :attr="{ oninput: 'if(value.length>11)value=value.slice(0,11)' }"
+          v-model="turnIntegral.mobile"></mt-field>
       </div>
       <div>
         <mt-field label="积分数量" type="number" placeholder="请输入积分数量" v-model="turnIntegral.amount"></mt-field>
@@ -30,6 +31,7 @@
     data() {
       return {
         disabled: true,
+        NameStatus:'',
         turnIntegral: {
           recipient: '',
           mobile: '',
@@ -60,7 +62,22 @@
           })
           // this.$Indicator.close()
         })
-      }
+      },
+      // 用户名校验
+      userName() {
+        var reg = /^[a-zA-Z0-9\u4E00-\u9FA5]{1,16}$/
+        if (!reg.test(this.turnIntegral.recipient)) {
+          Toast({
+              message: '用户名不能输入空格'
+            })
+          this.showHeader = true
+          setTimeout(() => {
+            this.showHeader = false
+          }, 3000)
+        } else {
+          this.NameStatus = 'success'
+        }
+      },
     },
     watch: {
       turnIntegral: {
@@ -72,7 +89,7 @@
           } else {
             this.disabled = true
           }
-        }         
+        }
       }
     },
     computed: {

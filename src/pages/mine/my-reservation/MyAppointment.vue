@@ -30,7 +30,6 @@ const listP = []
 export default {
   data () {
     return {
-      hide:true,
       show: false,
       orderData: '',
       closeOnClickModal: false,

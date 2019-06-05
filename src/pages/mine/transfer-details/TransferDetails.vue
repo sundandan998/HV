@@ -4,12 +4,13 @@
       <span>类型</span>
       <span>日期</span>
     </div> -->
-    <!-- <div v-for="(item, index) in dataList" :key="index"> -->
-    <router-link to="/detail">
-      <mt-cell title="消费" value="-2000" label="2019-01-01 14:24"></mt-cell>
-      <mt-cell title="消费" value="-2000" label="2019-01-01 14:24"></mt-cell>
+    <div v-for="(item, index) in detailsList" :key="index">
+    <router-link to="/detail/+item.id">
+      <mt-cell :title="item.transaction_type == 0 ? '转入' :item.transaction_type == 100 ? '转出'
+      :item.transaction_type == 200 ? '赠送' :item.transaction_type == 300 ? '消费':'退款'"
+      :value="item.amount" :label="item.transaction_time"></mt-cell>
     </router-link>
-    <!-- </div> -->
+    </div>
   </div>
 </template>
 <script>
@@ -18,7 +19,7 @@
   export default {
     data() {
       return {
-        
+       detailsList:[]        
       }
     },
     created() {
@@ -29,6 +30,7 @@
       // 明细
     details(){
       api.details().then(res=>{
+        this.detailsList = res.data
         console.log(res)
       }).catch(err=>{
         console.log(err)

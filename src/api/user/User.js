@@ -71,5 +71,13 @@ export default {
       method: 'get',
       data: params
     })
+  },
+  // 明细详情
+  detail(params = {}) {
+    return request({
+      url: '/user/flow/'+params.id+'/detail/',
+      method: 'get',
+      data: params
+    })
   }
 }

@@ -76,5 +76,5 @@
   }
 </script>
 <style lang="scss">
-  @import '../../assets/scss/Global.scss';
+  @import '../../assets/scss/Global.scss'
 </style>
