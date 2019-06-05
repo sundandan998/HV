@@ -6,7 +6,7 @@
         <mt-cell :title="this.detail.total" :value="'冻结:' + this.detail.freeze"></mt-cell>
       </div>
       <div class="transfer-out-body-field">
-        <mt-field label="接收人"  @blur.native.capture="userName" :state="NameStatus" v-model="turnIntegral.recipient" placeholder="请输入接收人"></mt-field>
+        <mt-field label="接收人" @blur.native.capture="userName" :state="NameStatus" v-model="turnIntegral.recipient" placeholder="请输入接收人"></mt-field>
         <mt-field label="手机号" type="number" placeholder="请输入手机号" :attr="{ oninput: 'if(value.length>11)value=value.slice(0,11)' }"
           v-model="turnIntegral.mobile"></mt-field>
       </div>
@@ -31,7 +31,7 @@
     data() {
       return {
         disabled: true,
-        NameStatus:'',
+        NameStatus: '',
         turnIntegral: {
           recipient: '',
           mobile: '',
@@ -48,19 +48,27 @@
         //   text: '加载中...',
         //   spinnerType: 'fading-circle'
         // })
-        api.turnOut(this.turnIntegral).then(res => {
-          Toast({
-            message: res.msg
+        this.$messagebox({
+          title: '转出',
+          message: '将向xx实时转入xx积分，无法退回，确定转出？',
+          cancelButtonText: '否',
+          confirmButtonText: '是',
+          showCancelButton: true
+        }).then(action => {
+          api.turnOut(this.turnIntegral).then(res => {
+            Toast({
+              message: res.msg
+            })
+            this.$router.push({
+              name: 'Mine'
+            })
+            // this.$Indicator.close()
+          }).catch(err => {
+            Toast({
+              message: err.msg
+            })
+            // this.$Indicator.close()
           })
-          this.$router.push({
-            name: 'Mine'
-          })
-          // this.$Indicator.close()
-        }).catch(err => {
-          Toast({
-            message: err.msg
-          })
-          // this.$Indicator.close()
         })
       },
       // 用户名校验
@@ -68,8 +76,8 @@
         var reg = /^[a-zA-Z0-9\u4E00-\u9FA5]{1,16}$/
         if (!reg.test(this.turnIntegral.recipient)) {
           Toast({
-              message: '用户名不能输入空格'
-            })
+            message: '用户名不能输入空格'
+          })
           this.showHeader = true
           setTimeout(() => {
             this.showHeader = false

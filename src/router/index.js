@@ -60,9 +60,9 @@ export default new Router({
     },
     // 明细详情
     {
-      path: '/detail',
-      name: 'Detail',
-      component: () => import('@/pages/mine/transfer-details/TransferDetail')
+      path: '/flow/:id',
+      name: 'Flow',
+      component: () => import('@/pages/mine/transfer-details/TransferFlow')
     },
   ]
 })

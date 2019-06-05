@@ -69,15 +69,15 @@ export default {
     return request({
       url: '/user/flow/list/',
       method: 'get',
-      data: params
+      params: params
     })
   },
   // 明细详情
   detail(params = {}) {
     return request({
-      url: '/user/flow/'+params.id+'/detail/',
+      url: '/user/flow/'+ params.id +'/detail/',
       method: 'get',
-      data: params
+      params: params
     })
   }
 }

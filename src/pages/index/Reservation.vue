@@ -27,6 +27,11 @@
   export default {
     data() {
       return {
+        detail: {},
+        search: {
+          page: 1,
+          page_size: 6
+        },
         date: {
           pickerVisible: '',
           startDate: new Date(),
@@ -37,18 +42,18 @@
           mobile: this.$store.getters.userInfo.data.mobile,
           service_id: this.$route.params.id,
           appointment_date: '',
-          detail: {}
         }
       }
     },
     created() {
       document.title = '预约信息'
+      this.rowData()
       // this.detail = this.$route.params.list[this.$route.params.id - 1]
-      this.$route.params.list.map(item => {
-        if (item.id === this.$route.params.id) {
-          this.detail = item
-        }
-      })
+      // this.$route.params.list.map(item => {
+      //   if (item.id === this.$route.params.id) {
+      //     this.detail = item
+      //   }
+      // })
     },
     methods: {
       success(id) {
@@ -56,20 +61,40 @@
         //   text: '加载中...',
         //   spinnerType: 'fading-circle'
         // })
-        api.addOrder(this.add).then(res => {
-          Toast({
-            message: res.msg
-          })
-          this.$router.push({
-            name: 'Myappointment'
-          })
-          // this.$Indicator.close()
-        }).catch(err => {
+        this.$messagebox({
+          title: '预约',
+          message: '预约成功后,将扣减对应数量积分确定预约？',
+          cancelButtonText: '否',
+          confirmButtonText: '是',
+          showCancelButton: true
+        }).then(action => {
+          api.addOrder(this.add).then(res => {
+            Toast({
+              message: res.msg
+            })
+            this.$router.push({
+              name: 'Myappointment'
+            })
+            // this.$Indicator.close()
+          }).catch(err => {
             Toast({
               message: err.msg
             })
-          // this.$Indicator.close()
+            // this.$Indicator.close()
+          })
         })
+      },
+      // 返回上一页
+      rowData() {
+        if (JSON.stringify(this.$route.params) !== '{}') {
+          this.$route.params.list.map(item => {
+            if (item.id === this.$route.params.id) {
+              this.detail = item
+            }
+          })
+        } else {
+          this.$router.go(-1)
+        }
       }
     },
     watch: {}

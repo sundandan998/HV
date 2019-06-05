@@ -1,7 +1,7 @@
 <template>
   <div class="my-appointment">
     <div class="my-appointment-body">
-        <p v-if="show">暂无数据</p>
+        <p v-if="show" class="null-data">暂无数据</p>
       <!-- <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="100"> -->
         <div v-for="(item,index) in orderData" class="order-list" :key= index>        
           <router-link :to="/detail/ + item.id">
@@ -9,7 +9,7 @@
             <mt-cell :title="item.service_title" readonly="readonly">
               <span class="integral">{{parseInt(item.price)}}</span>
               <span>
-                {{item.status == 0 ? '已预约' :item.status == 100 ?'已受理':item.status == 200 ?'撤销中':item.status == 300 ?'已撤销':item.status ==
+                {{item.status == 0 ? '待受理' :item.status == 100 ?'已受理':item.status == 200 ?'撤销中':item.status == 300 ?'已撤销':item.status ==
                 400 ?'已取消':'已完成' }}
               </span>
             </mt-cell>
@@ -50,8 +50,7 @@ export default {
     // this.edit()
     this.editData = this.$route.params
   },
-  methods: {
-    
+  methods: {    
     // 定单列表
     orderList () {
       api.orderList(this.list).then(res => {
@@ -67,10 +66,9 @@ export default {
     },
     // 修改订单状态
     edit (item) {
-      // debugger
-      // console.log(item)
-      if (item.status === 300 || item.status === 400 || item.status === 500) {
-        
+      debugger
+      console.log(item)
+      if (item.status === 300 || item.status === 400 || item.status === 500) {     
         this.$router.push({
           name: 'Reservation',
           params: { list: [{ integral: item.price, title: item.service_title }]}
@@ -88,6 +86,7 @@ export default {
         let actionStatus = item.status === 0 ? 0 : item.status === 100 ? 1 : item.status === 200 ? 2 : 3
         if (action == 'confirm') {
           api.editOrder({ id: item.id, action: actionStatus }).then(res => {
+            console.log(item)
             location.reload()
           }).catch(err => {
             console.log(err)
