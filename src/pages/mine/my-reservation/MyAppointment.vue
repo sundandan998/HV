@@ -97,11 +97,25 @@ export default {
     //   })
     // },
     edit (item) {
-      let actionStatus = item.status === 0 ? 0 : item.status === 100 ? 1 : item.status === 200 ? 2 : 3
-      api.editOrder({id: item.id, action: actionStatus}).then(res => {
-        item.status = 400
-      }).catch(err => {
-        console.log(err)
+      this.$messagebox({
+        title: '取消',
+        message: `确定取消该预约订单吗?`,
+        cancelButtonText: '否',
+        confirmButtonText: '是',
+        showCancelButton: true
+      }).then(action => {
+        if (action === 'confirm') {
+          this.$Indicator.open({
+            spinnerType: 'fading-circle'
+          })
+          let actionStatus = item.status === 0 ? 0 : item.status === 100 ? 1 : item.status === 200 ? 2 : 3
+          api.editOrder({id: item.id, action: actionStatus}).then(res => {
+            item.status = 400
+            this.$Indicator.close()
+          }).catch(err => {
+            console.log(err)
+          })
+        }
       })
     }
     // 下拉刷新

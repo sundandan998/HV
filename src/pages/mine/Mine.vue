@@ -17,7 +17,7 @@
           </router-link>
         </div>
         <span>可用HV(健康积分)</span>
-        <p>{{parseInt(integral.available)}}</p>
+        <p>{{integral.available}}</p>
         <div class="health-score-btn">
           <router-link to="out">
             <mt-button size="small" class="turn-out">转出</mt-button>
@@ -49,7 +49,9 @@ export default {
       selected: 'mine',
       message: 'mine',
       show: true,
-      integral: ''
+      integral: {
+        'available': '--'
+      }
     }
   },
   components: {
@@ -72,6 +74,7 @@ export default {
     userIntegral () {
       api.userIntegral().then(res => {
         this.integral = res.data
+        this.integral.available = parseInt(res.data.available)       
         this.$store.commit('detail', res.data)
         // console.log(res)
       }).catch(err => {
