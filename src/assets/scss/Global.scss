@@ -76,6 +76,11 @@ input.mint-field-core {
   width:100%; 
   z-index:9999; 
 }
+.index-title .mint-cell-text{
+  vertical-align: middle;
+    display: block;
+    width: 90%;
+}
 .index-body {
   margin-top: 45px;
   input placeholder {
@@ -165,6 +170,14 @@ span.price {
   margin-top: 18px;
 }
 // 预约信息
+.reservation-title{
+  .mint-cell-value{
+    display: block;
+    width: 50%;
+    position: absolute;
+    right: 3px;
+  }
+}
 .reservation-btn {
     width: 96%;
     position: fixed;
@@ -262,7 +275,7 @@ span.integral {
 .mint-popup {
   width: 80%;
   border-radius: 5px;
-  height: 320px;
+  height: 410px;
   .mint-cell-wrapper {
     border-bottom: 1px solid #f6f6f6;
   }

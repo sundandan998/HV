@@ -8,10 +8,10 @@ import MintUI from 'mint-ui'
 import store from './store'
 import 'mint-ui/lib/style.css'
 // loading加载
-import { Indicator } from 'mint-ui'
+// import { Indicator } from 'mint-ui'
 Vue.use(MintUI)
 // Vue.use(axios)
-Vue.prototype.$Indicator = Indicator
+// Vue.prototype.$Indicator = Indicator
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

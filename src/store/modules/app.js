@@ -3,7 +3,7 @@ const app = {
     // 详情
     detail: {},
     // 地址薄添加
-    refpath: '',
+    refpath: ''
 
   },
   mutations: {

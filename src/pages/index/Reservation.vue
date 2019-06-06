@@ -6,7 +6,7 @@
       <mt-cell title="联系电话" :value="add.mobile" v-model="add.mobile"></mt-cell>
     </div>
     <div class="reservation-body-price">
-      <mt-cell title="服务名称" :value="detail.title"></mt-cell>
+      <mt-cell title="服务名称" :value="detail.title" class="reservation-title"></mt-cell>
       <mt-cell title="价格" :value="parseInt(detail.integral)"></mt-cell>
     </div>
     <!-- <div class="reservation-body-time">
@@ -21,54 +21,50 @@
   </div>
 </template>
 <script>
-  import { Toast } from 'mint-ui'
-  // 接口请求
-  import api from '@/api/order/order.js'
-  export default {
-    data() {
-      return {
-        detail: {},
-        search: {
-          page: 1,
-          page_size: 6
-        },
-        date: {
-          pickerVisible: '',
-          startDate: new Date(),
-          time: ''
-        },
-        add: {
-          name: this.$store.getters.userInfo.data.name,
-          mobile: this.$store.getters.userInfo.data.mobile,
-          service_id: this.$route.params.id,
-          appointment_date: '',
-        }
+import { Toast } from 'mint-ui'
+// 接口请求
+import api from '@/api/order/order.js'
+export default {
+  data () {
+    return {
+      detail: {},
+      search: {
+        page: 1,
+        page_size: 6
+      },
+      date: {
+        pickerVisible: '',
+        startDate: new Date(),
+        time: ''
+      },
+      add: {
+        name: this.$store.getters.userInfo.data.name,
+        mobile: this.$store.getters.userInfo.data.mobile,
+        service_id: this.$route.params.id,
+        appointment_date: ''
       }
-    },
-    created() {
-      document.title = '预约信息'
-      this.rowData()
-      // this.detail = this.$route.params.list[this.$route.params.id - 1]
-      // this.$route.params.list.map(item => {
-      //   if (item.id === this.$route.params.id) {
-      //     this.detail = item
-      //   }
-      // })
-    },
-    methods: {
-      success(id) {
-        // this.$Indicator.open({
-        //   text: '加载中...',
-        //   spinnerType: 'fading-circle'
-        // })
-        this.$messagebox({
-          title: '预约',
-          message: '预约成功后,将扣减对应数量积分确定预约？',
-          cancelButtonText: '否',
-          confirmButtonText: '是',
-          showCancelButton: true
-        }).then(action => {
-          if(action ==='confirm'){
+    }
+  },
+  created () {
+    document.title = '预约信息'
+    this.rowData()
+    // this.detail = this.$route.params.list[this.$route.params.id - 1]
+    // this.$route.params.list.map(item => {
+    //   if (item.id === this.$route.params.id) {
+    //     this.detail = item
+    //   }
+    // })
+  },
+  methods: {
+    success (id) {
+      this.$messagebox({
+        title: '预约',
+        message: '预约成功后,将扣减对应数量积分<p>确定预约？</p>',
+        cancelButtonText: '否',
+        confirmButtonText: '是',
+        showCancelButton: true
+      }).then(action => {
+        if (action === 'confirm') {
           api.addOrder(this.add).then(res => {
             Toast({
               message: res.msg
@@ -84,24 +80,23 @@
             // this.$Indicator.close()
           })
         }
-        })
-        
-      },
-      // 返回上一页
-      rowData() {
-        if (JSON.stringify(this.$route.params) !== '{}') {
-          this.$route.params.list.map(item => {
-            if (item.id === this.$route.params.id) {
-              this.detail = item
-            }
-          })
-        } else {
-          this.$router.go(-1)
-        }
-      }
+      })
     },
-    watch: {}
-  }
+    // 返回上一页
+    rowData () {
+      if (JSON.stringify(this.$route.params) !== '{}') {
+        this.$route.params.list.map(item => {
+          if (item.id === this.$route.params.id) {
+            this.detail = item
+          }
+        })
+      } else {
+        this.$router.go(-1)
+      }
+    }
+  },
+  watch: {}
+}
 </script>
 <style lang="scss">
   @import '../../assets/scss/Global.scss'

@@ -63,6 +63,6 @@ export default new Router({
       path: '/flow/:id',
       name: 'Flow',
       component: () => import('@/pages/mine/transfer-details/TransferFlow')
-    },
+    }
   ]
 })

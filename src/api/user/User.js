@@ -65,7 +65,7 @@ export default {
     })
   },
   // 明细
-  details(params = {}) {
+  details (params = {}) {
     return request({
       url: '/user/flow/list/',
       method: 'get',
@@ -73,9 +73,9 @@ export default {
     })
   },
   // 明细详情
-  detail(params = {}) {
+  detail (params = {}) {
     return request({
-      url: '/user/flow/'+ params.id +'/detail/',
+      url: '/user/flow/' + params.id + '/detail/',
       method: 'get',
       params: params
     })

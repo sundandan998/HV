@@ -23,89 +23,86 @@
   </div>
 </template>
 <script>
-  import { Toast } from 'mint-ui'
-  import { mapGetters } from 'vuex'
-  // 接口请求
-  import api from '@/api/user/User'
-  export default {
-    data() {
-      return {
-        disabled: true,
-        NameStatus: '',
-        turnIntegral: {
-          recipient: '',
-          mobile: '',
-          amount: ''
-        }
+import { Toast } from 'mint-ui'
+import { mapGetters } from 'vuex'
+// 接口请求
+import api from '@/api/user/User'
+export default {
+  data () {
+    return {
+      disabled: true,
+      NameStatus: '',
+      turnIntegral: {
+        recipient: '',
+        mobile: '',
+        amount: ''
       }
-    },
-    created() {
-      document.title = '转出'
-    },
-    methods: {
-      success() {
-        // this.$Indicator.open({
-        //   text: '加载中...',
-        //   spinnerType: 'fading-circle'
-        // })
-        this.$messagebox({
-          title: '转出',
-          message: `将向${this.turnIntegral.recipient}实时转账${this.turnIntegral.amount},成功后无法退回,<p>确定转出？</p>`,
-          cancelButtonText: '否',
-          confirmButtonText: '是',
-          showCancelButton: true
-        }).then(action => {
-          if(action==='confirm'){
-            api.turnOut(this.turnIntegral).then(res => {              
+    }
+  },
+  created () {
+    document.title = '转出'
+  },
+  methods: {
+    success () {
+      const html = `
+      将向${this.turnIntegral.recipient}转账${this.turnIntegral.amount}积分,成功后无法退回,<p>确定转出？</p>
+      `
+      this.$messagebox({
+        title: '转出',
+        message: html,
+        cancelButtonText: '否',
+        confirmButtonText: '是',
+        showCancelButton: true
+      }).then(action => {
+        if (action === 'confirm') {
+          api.turnOut(this.turnIntegral).then(res => {
             Toast({
               message: res.msg
             })
             this.$router.push({
               name: 'Mine'
             })
-            // this.$Indicator.close()
           }).catch(err => {
             Toast({
               message: err.msg
             })
-            // this.$Indicator.close()
           })
-          }         
-        })
-      },
-      // 用户名校验
-      userName() {
-        var reg = /^[a-zA-Z0-9\u4E00-\u9FA5]{1,16}$/
-        if (!reg.test(this.turnIntegral.recipient)) {
-          Toast({
-            message: '用户名不能输入空格'
-          })
-          this.showHeader = true
-          setTimeout(() => {
-            this.showHeader = false
-          }, 3000)
-        } else {
-          this.NameStatus = 'success'
         }
-      },
+      })
     },
-    watch: {
-      turnIntegral: {
-        immediate: true,
-        deep: true,
-        handler(val) {
-          if (val.recipient !== '' && val.mobile !== '' && val.amount !== '') {
-            this.disabled = false
-          } else {
-            this.disabled = true
-          }
+    // 用户名校验
+    userName () {
+      var reg = /^[a-zA-Z0-9\u4E00-\u9FA5]{1,16}$/
+      if (!reg.test(this.turnIntegral.recipient)) {
+        Toast({
+          message: '用户名不能输入空格'
+        })
+        this.showHeader = true
+        setTimeout(() => {
+          this.showHeader = false
+        }, 3000)
+      } else {
+        this.NameStatus = 'success'
+      }
+    }
+  },
+  watch: {
+    turnIntegral: {
+      immediate: true,
+      deep: true,
+      handler (val) {
+        if (val.recipient !== '' && val.mobile !== '' && val.amount !== '') {
+          this.disabled = false
+        } else {
+          this.disabled = true
         }
       }
-    },
-    computed: {
-      ...mapGetters(['detail'])
     }
+  },
+  computed: {
+    ...mapGetters(['detail'])
   }
+}
 </script>
 <style lang="scss">
   @import '../../assets/scss/Global.scss';

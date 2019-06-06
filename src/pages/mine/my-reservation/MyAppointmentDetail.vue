@@ -9,7 +9,7 @@
         <mt-cell title="联系电话" :value="detailData.mobile"></mt-cell>
       </div>
        <div class="my-appointment-body-phone">
-      <mt-cell title="服务名称" :value="detailData.service_title"></mt-cell>
+      <mt-cell title="服务名称" :value="detailData.service_title" class="reservation-title"></mt-cell>
       <mt-cell title="价格" :value="detailData.price"></mt-cell>
     </div>
   </div>

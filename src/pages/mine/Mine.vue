@@ -40,46 +40,46 @@
   </div>
 </template>
 <script>
-  import Tabber from '../../assets/tabber/Tabber.vue'
-  // 接口请求
-  import api from '@/api/user/User.js'
-  export default {
-    data() {
-      return {
-        selected: 'mine',
-        message: 'mine',
-        show: true,
-        integral: ''
-      }
-    },
-    components: {
-      'app-tabber': Tabber
-    },
-    created() {
-      document.title = '我的'
-      this.userIntegral()
-    },
-    methods: {
-      // 隐藏与显示
-      //   block(){
-      //    if(this.show==true){
-      //     this.show=false
-      //   }else{
-      //     this.show=true
-      //   }
-      // }
-      // 用户积分
-      userIntegral() {
-        api.userIntegral().then(res => {
-          this.integral = res.data
-          this.$store.commit('detail', res.data)
-          // console.log(res)
-        }).catch(err => {
-          console.log(err)
-        })
-      }
+import Tabber from '../../assets/tabber/Tabber.vue'
+// 接口请求
+import api from '@/api/user/User.js'
+export default {
+  data () {
+    return {
+      selected: 'mine',
+      message: 'mine',
+      show: true,
+      integral: ''
+    }
+  },
+  components: {
+    'app-tabber': Tabber
+  },
+  created () {
+    document.title = '我的'
+    this.userIntegral()
+  },
+  methods: {
+    // 隐藏与显示
+    //   block(){
+    //    if(this.show==true){
+    //     this.show=false
+    //   }else{
+    //     this.show=true
+    //   }
+    // }
+    // 用户积分
+    userIntegral () {
+      api.userIntegral().then(res => {
+        this.integral = res.data
+        this.$store.commit('detail', res.data)
+        // console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
     }
   }
+}
 </script>
 <style lang="scss">
   @import '../../assets/scss/Global.scss'

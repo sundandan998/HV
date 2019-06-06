@@ -3,7 +3,7 @@
     <div class="my-appointment-body">
         <p v-if="show" class="null-data">暂无数据</p>
       <!-- <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="100"> -->
-        <div v-for="(item,index) in orderData" class="order-list" :key= index>        
+        <div v-for="(item,index) in orderData" class="order-list index-title" :key= index >
           <router-link :to="/detail/ + item.id">
             <mt-cell :title="item.appointment_date == null?'待分配':item.appointment_date" readonly="readonly"></mt-cell>
             <mt-cell :title="item.service_title" readonly="readonly">
@@ -33,7 +33,7 @@ export default {
     return {
       show: false,
       orderData: '',
-      editStatus:'',
+      editStatus: '',
       closeOnClickModal: false,
       list: {
         page: 1,
@@ -52,17 +52,16 @@ export default {
     // this.edit()
     this.editData = this.$route.params
   },
-  methods: {    
+  methods: {
     // 定单列表
     orderList () {
       api.orderList(this.list).then(res => {
-          this.orderData = res.data
-          // console.log(this.orderData[0])
-          listP.push(this.orderData)
-          if (this.orderData.length === 0){
-            this.show = true
-          }
-        })
+        this.orderData = res.data
+        listP.push(this.orderData)
+        if (this.orderData.length === 0) {
+          this.show = true
+        }
+      })
         .catch(err => {
           console.log(err)
         })
@@ -71,7 +70,7 @@ export default {
     // edit (item) {
     //   // debugger
     //   console.log(item)
-    //   if (item.status === 300 || item.status === 400 || item.status === 500) {     
+    //   if (item.status === 300 || item.status === 400 || item.status === 500) {
     //     this.$router.push({
     //       name: 'Reservation',
     //       params: { list: [{ integral: item.price, title: item.service_title }]}
@@ -97,13 +96,13 @@ export default {
     //     }
     //   })
     // },
-    edit(item){
+    edit (item) {
       debugger
       let actionStatus = item.status === 0 ? 0 : item.status === 100 ? 1 : item.status === 200 ? 2 : 3
-      api.editOrder({ id: item.id,action:actionStatus}).then(res=>{
-        item.status=400   
-      }).catch(err=>{
-        
+      api.editOrder({id: item.id, action: actionStatus}).then(res => {
+        item.status = 400
+      }).catch(err => {
+        console.log(err)
       })
     }
     // 下拉刷新
