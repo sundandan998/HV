@@ -97,7 +97,6 @@ export default {
     //   })
     // },
     edit (item) {
-      debugger
       let actionStatus = item.status === 0 ? 0 : item.status === 100 ? 1 : item.status === 200 ? 2 : 3
       api.editOrder({id: item.id, action: actionStatus}).then(res => {
         item.status = 400

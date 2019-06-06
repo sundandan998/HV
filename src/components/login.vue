@@ -50,7 +50,8 @@ export default {
         mobile: '',
         name: '',
         id_card: '',
-        access_token: null
+        access_token: null,
+        pay_pwd: ''
       },
       submitBtnDisabled: true,
       NameStatus: '',
@@ -170,16 +171,16 @@ export default {
     background-color: #F7F7F9;
     font-size: 12px;
     color:#B2BBC5;
-    border-radius: 5px;  
-    padding: 3px 0 5px 5px; 
+    border-radius: 5px;
+    padding: 3px 0 5px 5px;
   }
   span.prompt {
-    margin: 0 auto;   
-    text-align: left; 
+    margin: 0 auto;
+    text-align: left;
     margin-bottom: 15px;
-} 
+}
 .prompt p {
-  text-align: left; 
+  text-align: left;
   margin-top: 5px;
 }
 .prompt span:first-child{

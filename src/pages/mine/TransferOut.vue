@@ -15,9 +15,9 @@
       </div>
     </div>
     <div class="transfer-out-button">
-      <mt-button size="large" @click="success" :disabled=disabled class="sure">确认</mt-button>
+      <mt-button size="large" v-show="isOriginHei"  @click="success" :disabled=disabled class="sure">确认</mt-button>
       <router-link to="mine">
-        <mt-button size="large" class="cancel">取消</mt-button>
+        <mt-button size="large"   v-show="isOriginHei" class="cancel">取消</mt-button>
       </router-link>
     </div>
   </div>
@@ -32,6 +32,9 @@ export default {
     return {
       disabled: true,
       NameStatus: '',
+      isOriginHei: true,
+      screenHeight: document.documentElement.clientHeight,
+      originHeight: document.documentElement.clientHeight,
       turnIntegral: {
         recipient: '',
         mobile: '',
@@ -41,6 +44,14 @@ export default {
   },
   created () {
     document.title = '转出'
+  },
+  mounted () {
+    let self = this
+    window.onresize = function () {
+      return (function () {
+        self.screenHeight = document.documentElement.clientHeight
+      })()
+    }
   },
   methods: {
     success () {
@@ -96,6 +107,13 @@ export default {
         } else {
           this.disabled = true
         }
+      }
+    },
+    screenHeight (val) {
+      if (this.originHeight > val + 100) {
+        this.isOriginHei = false
+      } else {
+        this.isOriginHei = true
       }
     }
   },
