@@ -1,38 +1,59 @@
 <template>
-    <div class="modal">
-      <mt-popup v-model="showLogin" :closeOnClickModal="false">
-        <div class="position_re">
-          <mt-header class="errHeader" v-if="showHeader" fixed :title="errTitle"></mt-header>
-          <span>HV认证</span>
-          <img class="closeBtn" @click.self="isShowModalHide" src="@/assets/images/cancel.svg" alt>
-          <mt-field
-            label="手机号："
-            type="number"
-            v-model="verification.mobile"
-            :state="CodeStatus"
-            placeholder="请输入手机号"
-            @blur.native.capture="sendCode"
-            :attr="{ oninput: 'if(value.length>11)value=value.slice(0,11)' }"
-          ></mt-field>
-          <mt-field label="用户名：" placeholder="请输入用户名" :state="NameStatus" @blur.native.capture="userName" v-model="verification.name"></mt-field>
-          <mt-field
-            label="身份证号码："
-            v-model="verification.id_card"
-            :state="idStatus"
-            :attr="{ maxlength: 18 }"
-            @blur.native.capture="idCard"
-            placeholder="请输入身份证号码"
-          ></mt-field>
-          <span class="prompt">
-            <p>小提示</p>
-            <p>认证信息和线下签约信息保持一致</p>
-          </span>
-          <!-- id="disbtn" -->
-          <mt-button size="large" :disabled="submitBtnDisabled" @click="handleLogin">认证</mt-button>
-        </div>
+  <!-- 注册页面 -->
+  <div class="modal">
+    <mt-popup v-model="showLogin" :closeOnClickModal="false">
+      <div class="position_re">
+        <mt-header class="errHeader" v-if="showHeader" fixed :title="errTitle"></mt-header>
+        <span>HV注册</span>
+        <img class="closeBtn" @click.self="isShowModalHide" src="@/assets/images/cancel.svg" alt>
+        <mt-field
+          label="手机号："
+          type="number"
+          v-model="verification.mobile"
+          :state="CodeStatus"
+          placeholder="请输入手机号"
+          @blur.native.capture="sendCode"
+          :attr="{ oninput: 'if(value.length>11)value=value.slice(0,11)' }"
+        ></mt-field>
+        <mt-field label="用户名：" placeholder="请输入用户名" :state="NameStatus" @blur.native.capture="userName" v-model="verification.name"></mt-field>
+        <mt-field
+          label="身份证号码："
+          v-model="verification.id_card"
+          :state="idStatus"
+          :attr="{ maxlength: 18 }"
+          @blur.native.capture="idCard"
+          placeholder="请输入身份证号码"
+        ></mt-field>
+        <span class="prompt">
+          <p>小提示</p>
+          <p>认证信息和线下签约信息保持一致</p>
+        </span>
+        <!-- @click="handleLogin" -->
+        <mt-button size="large" :disabled="submitBtnDisabled" @click.native="showModel" >下一步</mt-button>
+      </div>
+    </mt-popup>   
+      <!-- 设置密码页面 -->
+      <mt-popup v-model="pwdModel" class="pwd-modal">
+        <span>HV注册</span>
+        <p>设置6位数字支付密码</p>
+        <van-password-input @focus="showKeyboard = true"/>
+      <p>再次输入支付密码</p>
+      <van-password-input @focus="showKeyboard = true"/>
+        <p>136***2311</p>
+        <input type="text">发送
       </mt-popup>
+      <div>
+          <!-- 数字键盘 -->
+          <van-number-keyboard
+          :show="showKeyboard"
+          extra-key="."
+          @input="onInput"
+          @delete="onDelete"
+          @blur="showKeyboard = false"
+        />
+        </div> 
     </div>
-  </template>
+</template>
 <script>
 import { Toast } from 'mint-ui'
 import { setTimeout } from 'timers'
@@ -46,6 +67,9 @@ export default {
   },
   data () {
     return {
+      show: true,
+      pwdModel:'',
+      showKeyboard: false,
       verification: {
         mobile: '',
         name: '',
@@ -62,6 +86,15 @@ export default {
     }
   },
   methods: {
+    onInput(key) {
+      this.value = (this.value + key).slice(0, 6);
+    },
+    onDelete() {
+      this.value = this.value.slice(0, this.value.length - 1);
+    },
+    showModel () {
+      this.pwdModel = true
+    },
     // 手机号校验
     sendCode () {
       var reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/
@@ -186,5 +219,11 @@ export default {
 .prompt span:first-child{
   padding-top: 10px;
 }
-
+.pwd-modal p{
+  margin: 10px 0 10px 15px;
+  color: #A6A6A6;
+}
+.van-number-keyboard.van-number-keyboard--default {
+    z-index: 9999 !important;
+}
   </style>

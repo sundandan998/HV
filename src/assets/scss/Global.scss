@@ -56,17 +56,11 @@ input{
 input.mint-field-core {
   width: 110px;
 }
-// .mint-field-other {
-//   top: 20px;
-//   right: 30px;
-//   position: absolute;
-//   /* z-index: 11111111111; */
-// }
 .null-data{
   text-align: center;
-    margin: 200px auto;
-    font-size: 20px;
-    color: #999;
+  margin: 200px auto;
+  font-size: 20px;
+  color: #999;
 }
 // 首页
 .index-header{
@@ -239,13 +233,31 @@ span.price {
 }
 }
 // 个人信息
-.information-body {
+.information-body-top {
   a {
     margin-bottom: -10px !important;
   }
 }
 .information-body-bot {
   margin-top: 20px;
+  margin-bottom: 10px;  
+}
+.information-body-pwd .mint-cell {
+   margin-bottom: 1px;
+   color: #333;
+}
+.mint-popup.mobile-modal{
+  height: 250px;
+}
+.mint-popup.modal-pwd{
+  height: 450px;
+  p{
+    text-align:center;
+    margin:8px 0px 8px 0px;
+  }
+}
+.pwd-keyword.van-number-keyboard.van-number-keyboard--default{
+  z-index: 9999 !important;
 }
 // 我的预约
 .my-appointment-body {

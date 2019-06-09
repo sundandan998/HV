@@ -32,8 +32,14 @@ export default new Router({
     {
       path: '/information',
       name: 'Information',
-      component: () => import('@/pages/mine/PersonalInformation')
+      component: () => import('@/pages/mine/information/PersonalInformation')
     },
+      // 忘记密码
+      {
+        path: '/forget',
+        name: 'Forget',
+        component: () => import('@/pages/mine/information/forgetPwd')
+      },
     // 我的预约
     {
       path: '/myappointment',

@@ -27,7 +27,6 @@
 // 接口请求
 import api from '@/api/order/order.js'
 const listP = []
-// import { MessageBox } from 'mint-ui'
 export default {
   data () {
     return {

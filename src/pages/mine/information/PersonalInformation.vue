@@ -11,12 +11,18 @@
         <mt-cell title="手机号" :value="infor.mobile" is-link @click.native="modalShow"></mt-cell>
         <!-- <mt-cell title="微信号" :value="infor.wx_username" is-link @click.native="remove"></mt-cell> -->
       </div>
+      <div class="information-body-pwd">
+        <mt-cell title="修改支付密码"  @click.native="modalShowPwd" is-link></mt-cell>
+        <router-link to="forget">
+        <mt-cell title="忘记支付密码" is-link></mt-cell>
+      </router-link>
+      </div>
     </div>
     <!-- 弹框 -->
     <div class="modal">
-      <mt-popup v-model="popupVisible" :closeOnClickModal="clickfalse">
+      <mt-popup v-model="popupVisible" :closeOnClickModal="clickfalse" class="mobile-modal">
         <span>更换手机号</span>
-        <img class="fr" @click="modalHide" src="../../assets/images/cancel.svg" alt="" />
+        <img class="fr" @click="modalHide" src="../../../assets/images/cancel.svg" alt="" />
         <mt-field label="手机号" placeholder="请输入手机号" type="number" v-model="phone.mobile" :state="NameStatus" :attr="{ oninput: 'if(value.length>11)value=value.slice(0,10)'}"></mt-field>
         <mt-field label="验证码" v-model="phone.code" placeholder="请输入验证码" :attr="{ oninput: 'if(value.length>6)value=value.slice(0,5)'}"
           type="number">
@@ -25,6 +31,36 @@
         <mt-button size="large" @click.native="success" :disabled="submitBtnDisabled">确定</mt-button>
       </mt-popup>
     </div>
+    <div class="modal">
+      <mt-popup v-model="popupPwd" :closeOnClickModal="clickfalse"class="modal-pwd">
+        <span>修改支付密码</span>
+        <img class="fr" @click="modalHide" src="../../../assets/images/cancel.svg" alt="" />
+        <p>原支付密码</p>
+        <van-password-input @focus="showKeyboard = true" />
+        <p>新密码</p>
+        <van-password-input @focus="showKeyboard = true" />
+        <p>确认密码</p>
+        <van-password-input @focus="showKeyboard = true" />
+        <mt-field v-model="phone.code" placeholder="请输入验证码" :attr="{ oninput: 'if(value.length>6)value=value.slice(0,5)'}"
+            type="number">
+            <input class="fr" v-on:click="sendSmsCode" v-model="btnContent" />
+          </mt-field>
+        <mt-button size="large" @click.native="success" :disabled="submitBtnDisabled">下一步</mt-button>           
+      </mt-popup> 
+      <div>
+          <!-- 数字键盘 -->
+          <van-number-keyboard
+          class="pwd-keyword"
+          :show="showKeyboard"
+          @input="onInput"
+          extra-key="."
+          @delete="onDelete"
+          delete-button-text="删除"
+          @blur="showKeyboard = false"
+          />
+        </div>     
+    </div>
+
   </div>
 </template>
 <script>
@@ -37,8 +73,11 @@ export default {
     return {
       clickfalse: false,
       popupVisible: false,
+      popupPwd:false,
       NameStatus: '',
       time: 0,
+      showKeyboard: false,
+      value:'123',
       // phone: '',
       btnContent: '发送',
       infor: '',
@@ -63,10 +102,20 @@ export default {
     //     this.NameStatus = 'success'
     //   }
     // },
+    // 键盘密码框
+    onInput(key) {
+      this.value = (this.value + key).slice(0, 6);
+    },
+    onDelete() {
+      this.value = this.value.slice(0, this.value.length - 1);
+    },
     modalShow () {
       this.popupVisible = true
       this.phone.mobile = ''
       this.phone.code = ''
+    },
+    modalShowPwd(){
+      this.popupPwd = true
     },
     success () {
       // debugger
@@ -84,6 +133,7 @@ export default {
     },
     modalHide () {
       this.popupVisible = false
+      this.popupPwd = false
     },
     // 解绑微信弹框
     remove () {
@@ -182,5 +232,5 @@ export default {
 }
 </script>
 <style lang="scss">
-  @import '../../assets/scss/Global.scss'
+  @import '../../../assets/scss/Global.scss'
 </style>

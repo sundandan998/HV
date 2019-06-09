@@ -74,7 +74,7 @@ export default {
     userIntegral () {
       api.userIntegral().then(res => {
         this.integral = res.data
-        this.integral.available = parseInt(res.data.available)       
+        this.integral.available = parseInt(res.data.available)
         this.$store.commit('detail', res.data)
         // console.log(res)
       }).catch(err => {
