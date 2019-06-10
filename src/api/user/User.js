@@ -16,6 +16,22 @@ export default {
       data: params
     })
   },
+  // 检测认证信息
+  certification(params = {}){
+    return request({
+      url: '/user/verify/user/',
+      method: 'post',
+      data: params
+    })
+  },
+  // 个人信息修改密码
+  editPwd(params = {}){
+    return request({
+      url: '/user/pay_pwd/modify/',
+      method: 'post',
+      data: params
+    })
+  },
   // 登录接口
   loginByCode (params = {}) {
     return request({

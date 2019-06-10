@@ -36,16 +36,16 @@
         <span>修改支付密码</span>
         <img class="fr" @click="modalHide" src="../../../assets/images/cancel.svg" alt="" />
         <p>原支付密码</p>
-        <van-password-input @focus="showKeyboard = true" />
+        <van-password-input :value="editPass.old_pay_pwd" @focus="showKeyboard = true" />
         <p>新密码</p>
-        <van-password-input @focus="showKeyboard = true" />
+        <van-password-input :value="editPass.new_pay_pwd1"  @focus="showKeyboard1 = true" />
         <p>确认密码</p>
-        <van-password-input @focus="showKeyboard = true" />
-        <mt-field v-model="phone.code" placeholder="请输入验证码" :attr="{ oninput: 'if(value.length>6)value=value.slice(0,5)'}"
-            type="number">
-            <input class="fr" v-on:click="sendSmsCode" v-model="btnContent" />
-          </mt-field>
-        <mt-button size="large" @click.native="success" :disabled="submitBtnDisabled">下一步</mt-button>           
+        <van-password-input :value="editPass.new_pay_pwd2" @focus="showKeyboard2 = true" />
+        <mt-field v-model="editPass.code" placeholder="请输入验证码">
+          <input class="fr" v-on:click="sendSmsCode" v-model="btnContent" />
+        </mt-field>
+          <!-- " -->
+        <mt-button size="large" @click.native="edit":disabled="submitBtnDisabled" >下一步</mt-button>           
       </mt-popup> 
       <div>
           <!-- 数字键盘 -->
@@ -57,6 +57,24 @@
           @delete="onDelete"
           delete-button-text="删除"
           @blur="showKeyboard = false"
+          />
+          <van-number-keyboard
+          class="pwd-keyword"
+          :show="showKeyboard1"
+          @input="onInput1"
+          extra-key="."
+          @delete="onDelete1"
+          delete-button-text="删除"
+          @blur="showKeyboard1 = false"
+          />
+          <van-number-keyboard
+          class="pwd-keyword"
+          :show="showKeyboard2"
+          @input="onInput2"
+          extra-key="."
+          @delete="onDelete2"
+          delete-button-text="删除"
+          @blur="showKeyboard2 = false"
           />
         </div>     
     </div>
@@ -71,13 +89,15 @@ import api from '@/api/user/User.js'
 export default {
   data () {
     return {
+      value:'',
       clickfalse: false,
       popupVisible: false,
       popupPwd:false,
       NameStatus: '',
       time: 0,
       showKeyboard: false,
-      value:'123',
+      showKeyboard1:false,
+      showKeyboard2:false,
       // phone: '',
       btnContent: '发送',
       infor: '',
@@ -85,6 +105,12 @@ export default {
       phone: {
         mobile: '',
         code: ''
+      },
+      editPass:{
+        code:'',
+        old_pay_pwd:'',
+        new_pay_pwd1:'',
+        new_pay_pwd2:''
       }
     }
   },
@@ -104,10 +130,22 @@ export default {
     // },
     // 键盘密码框
     onInput(key) {
-      this.value = (this.value + key).slice(0, 6);
+      this.editPass.old_pay_pwd = (this.editPass.old_pay_pwd + key).slice(0, 6);
+    },
+    onInput1(key) {
+      this.editPass.new_pay_pwd1 = (this.editPass.new_pay_pwd1 + key).slice(0, 6);
+    },
+    onInput2(key) {
+      this.editPass.new_pay_pwd2 = (this.editPass.new_pay_pwd2 + key).slice(0, 6);
     },
     onDelete() {
-      this.value = this.value.slice(0, this.value.length - 1);
+      this.editPass.old_pay_pwd = this.editPass.old_pay_pwd.slice(0, this.editPass.old_pay_pwd.length - 1)
+    },
+    onDelete1() {
+      this.editPass.new_pay_pwd2 = this.editPass.new_pay_pwd1.slice(0, this.editPass.new_pay_pwd1.length - 1)
+    },
+    onDelete2() {
+      this.editPass.new_pay_pwd2 = this.editPass.new_pay_pwd2.slice(0, this.editPass.new_pay_pwd2.length - 1)
     },
     modalShow () {
       this.popupVisible = true
@@ -129,6 +167,14 @@ export default {
         Toast({
           message: err.msg
         })
+      })
+    },
+    // 修改密码
+    edit(){
+      api.editPwd(this.editPass).then(res=>{
+        console.log(res)
+      }).catch(err=>{
+        console.log(err)
       })
     },
     modalHide () {
@@ -218,6 +264,19 @@ export default {
       handler (val) {
         // debugger
         if (val.mobile === '' || val.code === '') {
+          // debugger
+          this.submitBtnDisabled = true
+        } else {
+          this.submitBtnDisabled = false
+        }
+      }
+    },
+    editPass: {
+      immediate: true,
+      deep: true,
+      handler (val) {
+        // debugger
+        if (val.old_pay_pwd === ''|| val.new_pay_pwd1==='' ||val.new_pay_pwd2===''|| val.code === '') {
           // debugger
           this.submitBtnDisabled = true
         } else {

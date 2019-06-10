@@ -19,7 +19,25 @@
       <router-link to="mine">
         <mt-button size="large"   v-show="isOriginHei" class="cancel">取消</mt-button>
       </router-link>
+
     </div>
+    <div v-if="hide">
+      <mt-popup v-model="turnModelModel" class="resevation-modal">
+        <img class="fr" @click="modalHide" src="../../assets/images/cancel.svg" alt="" /> 
+        <span>输入支付密码</span>      
+        <p>向xx转账</p>
+        <p>20000(积分)</p>
+        <van-password-input :value="value" @focus="showKeyboard= true"/>
+      </mt-popup>  
+    </div>
+      <!-- 数字键盘 -->
+      <van-number-keyboard
+      :show="showKeyboard"
+      extra-key="."
+      @input="onInput"
+      @delete="onDelete"
+      @blur="showKeyboard = false"
+    />
   </div>
 </template>
 <script>
@@ -30,6 +48,10 @@ import api from '@/api/user/User'
 export default {
   data () {
     return {
+      value:'',
+      hide:false,
+      showKeyboard:false,
+      turnModelModel:'',
       disabled: true,
       NameStatus: '',
       isOriginHei: true,
@@ -54,32 +76,42 @@ export default {
     }
   },
   methods: {
+    onInput(key) {
+      this.value = (this.value + key).slice(0, 6)
+    },
+    onDelete() {
+      this.value = this.value.slice(0, this.value.length - 1)
+    },
+    modalHide () {
+      this.hide = false
+    },
     success () {
-      const html = `
-      将向${this.turnIntegral.recipient}转账${this.turnIntegral.amount}积分,成功后无法退回,<p>确定转出？</p>
-      `
-      this.$messagebox({
-        title: '转出',
-        message: html,
-        cancelButtonText: '否',
-        confirmButtonText: '是',
-        showCancelButton: true
-      }).then(action => {
-        if (action === 'confirm') {
-          api.turnOut(this.turnIntegral).then(res => {
-            Toast({
-              message: res.msg
-            })
-            this.$router.push({
-              name: 'Mine'
-            })
-          }).catch(err => {
-            Toast({
-              message: err.msg
-            })
-          })
-        }
-      })
+      this.hide = true
+      // const html = `
+      // 将向${this.turnIntegral.recipient}转账${this.turnIntegral.amount}积分,成功后无法退回,<p>确定转出？</p>
+      // `
+      // this.$messagebox({
+      //   title: '转出',
+      //   message: html,
+      //   cancelButtonText: '否',
+      //   confirmButtonText: '是',
+      //   showCancelButton: true
+      // }).then(action => {
+      //   if (action === 'confirm') {
+      //     api.turnOut(this.turnIntegral).then(res => {
+      //       Toast({
+      //         message: res.msg
+      //       })
+      //       this.$router.push({
+      //         name: 'Mine'
+      //       })
+      //     }).catch(err => {
+      //       Toast({
+      //         message: err.msg
+      //       })
+      //     })
+      //   }
+      // })
     },
     // 用户名校验
     userName () {
