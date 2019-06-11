@@ -19,15 +19,14 @@
       <router-link to="mine">
         <mt-button size="large"   v-show="isOriginHei" class="cancel">取消</mt-button>
       </router-link>
-
     </div>
     <div v-if="hide">
       <mt-popup v-model="turnModelModel" class="resevation-modal">
         <img class="fr" @click="modalHide" src="../../assets/images/cancel.svg" alt="" /> 
         <span>输入支付密码</span>      
-        <p>向xx转账</p>
-        <p>20000(积分)</p>
-        <van-password-input :value="value" @focus="showKeyboard= true"/>
+        <p>向{{this.turnIntegral.recipient}}转账</p>
+        <p>{{this.turnIntegral.amount}}(积分)</p>
+        <van-password-input :value="turnIntegral.pay_pwd" @focus="showKeyboard= true"/>
       </mt-popup>  
     </div>
       <!-- 数字键盘 -->
@@ -49,6 +48,7 @@ export default {
   data () {
     return {
       value:'',
+      pay_pwd:'',
       hide:false,
       showKeyboard:false,
       turnModelModel:'',
@@ -60,7 +60,8 @@ export default {
       turnIntegral: {
         recipient: '',
         mobile: '',
-        amount: ''
+        amount: '',
+        pay_pwd: ''
       }
     }
   },
@@ -77,41 +78,16 @@ export default {
   },
   methods: {
     onInput(key) {
-      this.value = (this.value + key).slice(0, 6)
+      this.turnIntegral.pay_pwd = (this.turnIntegral.pay_pwd + key).slice(0, 6)
     },
     onDelete() {
-      this.value = this.value.slice(0, this.value.length - 1)
+      this.turnIntegral.pay_pwd = this.turnIntegral.pay_pwd.slice(0, this.turnIntegral.pay_pwd.length - 1)
     },
     modalHide () {
       this.hide = false
     },
     success () {
       this.hide = true
-      // const html = `
-      // 将向${this.turnIntegral.recipient}转账${this.turnIntegral.amount}积分,成功后无法退回,<p>确定转出？</p>
-      // `
-      // this.$messagebox({
-      //   title: '转出',
-      //   message: html,
-      //   cancelButtonText: '否',
-      //   confirmButtonText: '是',
-      //   showCancelButton: true
-      // }).then(action => {
-      //   if (action === 'confirm') {
-      //     api.turnOut(this.turnIntegral).then(res => {
-      //       Toast({
-      //         message: res.msg
-      //       })
-      //       this.$router.push({
-      //         name: 'Mine'
-      //       })
-      //     }).catch(err => {
-      //       Toast({
-      //         message: err.msg
-      //       })
-      //     })
-      //   }
-      // })
     },
     // 用户名校验
     userName () {
@@ -139,15 +115,35 @@ export default {
         } else {
           this.disabled = true
         }
+      },
+        // 监听密码输入完成发请求
+    pay_pwd(){
+      if(this.pay_pwd.length==6){
+        // 确认支付
+        api.turnOut(this.turnIntegral).then(res => {
+          Toast({
+            message: res.msg
+          })
+          this.$router.push({
+            name: 'Mine'
+          })
+        }).catch(err => {
+          Toast({
+            message: err.msg
+          })
+        })
       }
+    }
     },
+    // 确定取消按钮置底
     screenHeight (val) {
       if (this.originHeight > val + 100) {
         this.isOriginHei = false
       } else {
         this.isOriginHei = true
       }
-    }
+    },
+
   },
   computed: {
     ...mapGetters(['detail'])
@@ -155,5 +151,5 @@ export default {
 }
 </script>
 <style lang="scss">
-  @import '../../assets/scss/Global.scss';
+  @import '../../assets/scss/Global.scss'
 </style>

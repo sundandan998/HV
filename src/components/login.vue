@@ -40,9 +40,9 @@
       <van-number-keyboard :show="showKeyboard1" extra-key="." @input="onInput1"
       @delete="onDelete1" @blur="showKeyboard1 = false"
      />
-     <van-number-keyboard :show="showKeyboard2" extra-key="."  @input="onInput2"
+     <!-- <van-number-keyboard :show="showKeyboard2" extra-key="."  @input="onInput2"
      @delete="onDelete2" @blur="showKeyboard2 = false"
-    />
+    /> -->
     </div>
   </div>
 </template>

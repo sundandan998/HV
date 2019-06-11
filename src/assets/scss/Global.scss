@@ -232,6 +232,9 @@ span.price {
   border: 1px solid #09bb07 !important;
 }
 }
+.van-number-keyboard.van-number-keyboard--default {
+  z-index: 9999 !important;
+}
 // 个人信息
 .information-body-top {
   a {
@@ -250,10 +253,15 @@ span.price {
   height: 250px;
 }
 .mint-popup.modal-pwd{
-  height: 450px;
+  height: 465px;
   p{
     text-align:center;
     margin:8px 0px 8px 0px;
+  }
+  b{
+    font-weight: 400;
+    display: block;
+    margin: 10px 0 0 15px;
   }
 }
 .pwd-keyword.van-number-keyboard.van-number-keyboard--default{

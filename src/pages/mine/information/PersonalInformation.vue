@@ -41,8 +41,9 @@
         <van-password-input :value="editPass.new_pay_pwd1"  @focus="showKeyboard1 = true" />
         <p>确认密码</p>
         <van-password-input :value="editPass.new_pay_pwd2" @focus="showKeyboard2 = true" />
-        <mt-field v-model="editPass.code" placeholder="请输入验证码">
-          <input class="fr" v-on:click="sendSmsCode" v-model="btnContent" />
+        <b>{{this.infor.mobile}}</b> 
+        <mt-field v-model="phone.code" placeholder="请输入验证码">
+          <input class="fr" v-on:click="pwdSendCode" v-model="btnContent" />
         </mt-field>
           <!-- " -->
         <mt-button size="large" @click.native="edit":disabled="submitBtnDisabled" >下一步</mt-button>           
@@ -245,6 +246,28 @@ export default {
         this.btnContent = '发送'
         clearTimeout(timer)
       }
+    },
+    // 修改密码弹框验证码
+    pwdSendCode(){
+      api.sendCode(this.verification).then(res => {
+        if (res.code === 0) {
+          this.time = 60
+          this.timer()
+          Toast({
+            message: res.msg,
+            position: 'top',
+            className: 'zZindex'
+          })
+        }
+      }).catch(err => {
+        if (err.code !== 0) {
+          Toast({
+            message: err.msg,
+            position: 'top',
+            className: 'zZindex'
+          })
+        }
+      })
     },
     // 个人信息
     information () {
